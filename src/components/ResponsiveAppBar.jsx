@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
               />
             </svg>
           </span>
-          <span className="font-bold">DevUI</span>
+          <link className="font-bold">DevUI</link>
         </div>
         <div className="hidden lg:block">
           <ul className="ml-12 inline-flex space-x-8">
@@ -102,7 +102,7 @@ function ResponsiveAppBar() {
                         />
                       </svg>
                     </span>
-                    <span className="font-bold">DevUI</span>
+                    <span className="font-bold">RGIT</span>
                   </div>
                   <div className="-mr-2">
                     <button
