@@ -8,8 +8,15 @@ import {
   Paperclip,
   Brush,
   Wrench,
+  CameraIcon,
+  BookA,
+  BookOpen,
+  GraduationCap,
+  Target,
+  FileClock,
+  LogOut,
 } from "lucide-react";
-const photoUrl = '../images/profile.jpeg';
+
 export default function Sidebar() {
   return (
     <aside className="fixed top-0 left-0 bottom-0 h-screen w-64 flex flex-col overflow-y-auto border-r bg-black px-5 py-8">
@@ -41,41 +48,41 @@ export default function Sidebar() {
               className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
               href="#"
             >
-              <BarChart className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Dashboard</span>
+              <CameraIcon className="h-5 w-5" aria-hidden="true" />
+              <span className="mx-2 text-sm font-medium">Update Profile Picture</span>
             </a>
             <a
               className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               href="#"
             >
-              <Wallet className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Sales</span>
+              <BookOpen className="h-5 w-5" aria-hidden="true" />
+              <span className="mx-2 text-sm font-medium">Profile Information</span>
             </a>
           </div>
           <div className="space-y-3 ">
             <label className="px-3 text-xs font-semibold uppercase text-white">
-              content
+              Account
             </label>
             <a
               className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               href="#"
             >
-              <Newspaper className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Blogs</span>
+              <GraduationCap className="h-5 w-5" aria-hidden="true" />
+              <span className="mx-2 text-sm font-medium">Resume/Cv</span>
             </a>
             <a
               className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               href="#"
             >
-              <BellRing className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Notifications</span>
+              <Target className="h-5 w-5" aria-hidden="true" />
+              <span className="mx-2 text-sm font-medium">Job Preferences</span>
             </a>
             <a
               className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               href="#"
             >
-              <Paperclip className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Checklists</span>
+              <FileClock className="h-5 w-5" aria-hidden="true" />
+              <span className="mx-2 text-sm font-medium">Application History</span>
             </a>
           </div>
 
@@ -95,7 +102,14 @@ export default function Sidebar() {
               href="#"
             >
               <Wrench className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Setting</span>
+              <span className="mx-2 text-sm font-medium">Settings</span>
+            </a>
+            <a
+              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="#"
+            >
+              <LogOut className="h-5 w-5" aria-hidden="true" />
+              <span className="mx-2 text-sm font-medium">Logout</span>
             </a>
           </div>
         </nav>

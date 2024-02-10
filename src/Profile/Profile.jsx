@@ -5,11 +5,18 @@ import Sidebar from './SideBar';
 
 const Profile = () => {
   return (
-    <div>
-      <Sidebar/>
-      Profile
+    <div className="flex h-screen">
+      <Sidebar />
+      <div className="flex-grow p-10">
+        <ResponsiveAppBar />
+        {/* Additional profile content goes here */}
+        <EditProfileForm />
+        {/* Additional profile content goes here */}
+        <Footer />
+      </div>
     </div>
   );
-}
+};
 
 export default Profile;
+
