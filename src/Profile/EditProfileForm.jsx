@@ -1,110 +1,116 @@
-import React, { useState } from 'react';
+import React from 'react'
+import { Home, ChevronRight, ShoppingCart } from 'lucide-react'
 
-const EditProfileForm = ({ initialValues, onSubmit }) => {
-  const [formState, setFormState] = useState(initialValues);
+const steps = ['Personal Information', 'Payment Method', 'Confirmation']
 
-  const handleInputChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setFormState({
-      ...formState,
-      avatar: e.target.files[0],
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formState);
-  };
-
+export function EditProfileForm() {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label htmlFor="firstName" className="block text-gray-700 font-bold mb-2">
-          First Name
-        </label>
-        <input
-          type="text"
-          name="firstName"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="firstName"
-          value={formState.firstName}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="lastName" className="block text-gray-700 font-bold mb-2">
-          Last Name
-        </label>
-        <input
-          type="text"
-          name="lastName"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="lastName"
-          value={formState.lastName}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
-          Phone Number
-        </label>
-        <input
-          type="tel"
-          name="phoneNumber"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="phoneNumber"
-          value={formState.phoneNumber}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-          Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          value={formState.email}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="avatar" className="block text-gray-700 font-bold mb-2">
-          Avatar
-        </label>
-        <input
-          type="file"
-          name="avatar"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="avatar"
-          onChange={handleFileChange}
-        />
-      </div>
-      <div className="flex items-center justify-between">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="submit"
-        >
-          Save
-        </button>
-        <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="button"  // Set the type to "button" to prevent form submission
-          onClick={() => onCancel()}  // Define onCancel function to handle cancel action
-  >
-          Cancel
-        </button>
-      </div>
-    </form>
-  );
-};
+    <div className="mx-auto w-full max-w-7xl bg-slate-100 py-2">
+      <div className="mx-auto my-4 max-w-2xl md:my-6">
+        {/* breadcrumb */}
+        <nav className="mb-8 flex" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <li className="inline-flex items-center">
+              <a
+                href="#"
+                className="ml-1 inline-flex text-sm font-medium text-gray-900 hover:underline md:ml-2"
+              >
+                <Home size={16} className="mr-2 text-gray-900" />
+                Cart
+              </a>
+            </li>
+            {steps.map((step) => (
+              <li key={step}>
+                <div className="flex items-center">
+                  <ChevronRight size={16} className="mr-2 text-gray-600" />
+                  <a
+                    href="#"
+                    className="ml-1 text-sm font-medium text-gray-900 hover:underline md:ml-2"
+                  >
+                    {step}
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        {/* Form */}
+        <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
+          <div className="mb-4 flex items-center rounded-lg py-2">
+            <div className="mr-2 rounded-full bg-gray-100  p-2 text-black">
+              <ShoppingCart size={20} />
+            </div>
+            <div className="flex flex-1">
+              <p className="text-sm font-medium">
+                You have <strong>4</strong> items in cart. Sub total is <strong>₹10,000</strong>
+              </p>
+            </div>
+            <button
+              type="button"
+              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              View Items
+            </button>
+          </div>
+          <p className="text-sm font-bold text-gray-900">Personal Info</p>
+          <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">
+            <div className="w-full">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="firstName"
+              >
+                First Name
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                placeholder="Enter your first name"
+                id="firstName"
+              ></input>
+            </div>
 
-export default EditProfileForm;
+            <div className="w-full">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="lastName"
+              >
+                Last Name
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                placeholder="Enter your last name"
+                id="lastName"
+              ></input>
+            </div>
+            <div className="col-span-2 grid">
+              <div className="w-full">
+                <label
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  htmlFor="email"
+                >
+                  Email Address
+                </label>
+                <input
+                  className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                  type="email"
+                  placeholder="Enter your email"
+                  id="email"
+                ></input>
+              </div>
+            </div>
+
+            <div className="col-span-2 grid">
+              <button
+                type="button"
+                className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Next Step
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
