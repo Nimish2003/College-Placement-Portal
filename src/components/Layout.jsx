@@ -1,13 +1,12 @@
 'use client'
 import React from 'react'
-import ResponsiveAppBar from '../components/ResponsiveAppBar'
-import Footer  from '../components/Footer'
+import ResponsiveAppBar from './ResponsiveAppBar'
+import Footer  from './Footer'
 
 const Layout = () => {
   return (
     <div>
       <ResponsiveAppBar />
-      <Footer />
     </div>
   )
 }
