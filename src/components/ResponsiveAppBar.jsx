@@ -38,7 +38,7 @@ function ResponsiveAppBar() {
         <div className="inline-flex items-center space-x-2">
           <span>
           <svg
-              width="30"
+              width="30"  
               height="30"
               viewBox="0 0 50 56"
               fill="none"
