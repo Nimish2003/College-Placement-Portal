@@ -3,7 +3,7 @@ import React from 'react'
   return (
     <section className="relative overflow-hidden bg-white -600 py-8">
       <div className="container relative z-10 mx-auto px-4">
-      <div className="container fixed bottom-0 mx-auto flex flex-wrap items-center justify-between">
+      <div className="container mx-auto flex flex-wrap items-center justify-between sticky bottom-0">
           <div className="w-auto p-8">
             <a href="#">
               <div className="inline-flex items-center">

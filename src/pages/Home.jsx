@@ -1,10 +1,11 @@
 import React from 'react'
-import Layout from '../pages/Layout'
+import Layout from '../components/Layout'
+import Sidebar from '../components/SideBar'
 const Home = () => {
   return (
         <>
       <div>
-    Home
+    <Sidebar />
     </div>
     </>
   )
