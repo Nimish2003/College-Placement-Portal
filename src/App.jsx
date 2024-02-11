@@ -1,3 +1,5 @@
+import React from "react";
+import Layout from "./pages/Layout.jsx";
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
@@ -18,7 +20,7 @@ const App = () => {
       </BrowserRouter>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
