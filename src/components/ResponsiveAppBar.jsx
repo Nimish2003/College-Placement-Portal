@@ -1,4 +1,4 @@
-
+"use client"
 import Profile from "../images/profile.jpeg"
 import React from 'react'
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
               />
             </svg>
           </span>
-          <link className="font-bold">DevUI</link>
+          <h1>DevUI</h1>
         </div>
         <div className="hidden lg:block">
           <ul className="ml-12 inline-flex space-x-8">

@@ -1,12 +1,20 @@
 import React from 'react'
-
-import Layout from './pages/Layout'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
 import Profile from './Profile/Profile'
+import Layout from './pages/Layout'
+
 
 const App = () => {
   return (
     <div>
-    <Profile />
+      <Layout />
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}></Route>
+        <Route path="/profile" element={<Profile/>}></Route>
+      </Routes>
+      </BrowserRouter>
     </div>
   )
 }
