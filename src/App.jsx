@@ -14,6 +14,7 @@ const App = () => {
   return (
     <div>
       <Layout />
+      <Profile />
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
