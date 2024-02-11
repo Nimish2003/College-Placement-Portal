@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Card from "../components/Card.jsx";
 import { companiesData } from "../dummyData.js";
+import Sidebar from "../components/SideBar.jsx";
 
 function Placement() {
   const [list, setList] = useState([...companiesData]);
@@ -9,7 +10,10 @@ function Placement() {
   });
 
   return (
-    <div className="flex flex-col flex-1 items-center mb-1 ml-64 py-5">
+  <>
+  <div className="flex">
+  
+    <div className="flex flex-col flex-1 items-center  px-5 py-5">
       <div className="w-4/12 px-4 mb-4">
         <input
           type="text"
@@ -21,6 +25,8 @@ function Placement() {
         <div className="w-full max-w-4xl">{card}</div>
       </div>
     </div>
+    </div>
+    </>
   );
 }
 

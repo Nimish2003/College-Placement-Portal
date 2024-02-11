@@ -23,6 +23,10 @@ const menuItems = [
     name: 'Placements',
     href: 'placements',
   },
+  {
+    name: 'Profile',
+    href: 'profile',
+  },
 ]
 
 function ResponsiveAppBar() {
@@ -72,7 +76,7 @@ function ResponsiveAppBar() {
         <div className="ml-2 mt-2 hidden lg:block">
           {/* User Profile */}
           <span className="relative inline-block">
-            <img
+            <img  
               className="h-10 w-10 rounded-full"
               src={Profile}
               alt="User Profile"

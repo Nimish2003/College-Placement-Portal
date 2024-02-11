@@ -8,23 +8,23 @@ import RecruitmentProcess from "./pages/RecruitmentProcess";
 import Internships from "./pages/Internships";
 import Placement from "./pages/Placement";
 import ContactUs from "./pages/ContactUs";
+import Sidebar from "./components/SideBar";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
     <div>
       <Layout />
-      <BrowserRouter>
+     <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/contactus" element={<ContactUs />}></Route>
-          <Route
-            path="/recruitment process"
-            element={<RecruitmentProcess />}
-          ></Route>
+          <Route path="/recruitment process" element={<RecruitmentProcess />}></Route>
           <Route path="/internships" element={<Internships />}></Route>
           <Route path="/placements" element={<Placement />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
-        </Routes>
+          <Route path="/login/*" element={<Login />}> </Route>
+         </Routes>
       </BrowserRouter>
       <Footer />
     </div>

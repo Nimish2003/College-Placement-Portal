@@ -1,8 +1,9 @@
 import React from 'react'
+import Sidebar from '../components/SideBar'
 
 const Internships = () => {
   return (
-    <div>
+    <div className='flex'>
       Internships
     </div>
   )
