@@ -11,7 +11,7 @@ import {
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 flex flex-col overflow-y-auto border-r bg-blue-400 px-5 py-8">
+    <aside className="w-64 flex flex-col overflow-y-auto border-r bg-[#0099ff] px-5 py-8">
       <a href="#">
         <svg
           width="40"

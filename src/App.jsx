@@ -4,6 +4,10 @@ import Home from './pages/Home'
 import Profile from './Profile/Profile'
 import Layout from './components/Layout'
 import Footer from './components/Footer'
+import RecruitmentProcess from "./pages/RecruitmentProcess";
+import Internships from "./pages/Internships";
+import Placement from "./pages/Placement";
+import  ContactUs from "./pages/ContactUs"
 
 
 const App = () => {
@@ -13,7 +17,10 @@ const App = () => {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="/profile" element={<Profile/>}></Route>
+        <Route path="/contactus" element={<ContactUs/>}></Route>
+        <Route path="/recruitment process" element={<RecruitmentProcess/>}></Route>
+        <Route path="/internships" element={<Internships/>}></Route>
+        <Route path="/placements" element={<Placement/>}></Route>
       </Routes>
       </BrowserRouter>
       <Footer />
