@@ -5,7 +5,7 @@ const steps = ["Personal Information", "Payment Method", "Confirmation"];
 
 export function EditProfileForm() {
   return (
-    <div className="ml-auto mr-auto mt-10 my-4 max-w-2xl">
+    <div className="ml-auto mr-auto mt-10 my-4 w-[calc(100%-64rem)]">
       <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
         <p className="text-sm font-bold text-gray-900">Personal Info</p>
         <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">

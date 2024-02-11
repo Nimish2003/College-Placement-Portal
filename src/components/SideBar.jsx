@@ -12,6 +12,7 @@ import {
 export default function Sidebar() {
   return (
     <aside className="w-64 flex flex-col overflow-y-auto border-r bg-[#0099ff] px-5 py-8">
+  
       <div className="mt-6 flex flex-1 flex-col justify-between">
         <nav className="-mx-3 space-y-6 ">
           <div className="space-y-3 ">
