@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 
-import Layout from './pages/Layout'
+import Layout from "./pages/Layout.jsx";
 
 const App = () => {
   return (
     <div>
-    <Layout />
+      <Layout />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
