@@ -1,12 +1,13 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Profile from "./Profile/Profile";
-import Layout from "./components/Layout";
-import Footer from "./components/Footer";
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Profile from './Profile/Profile'
+import Layout from './components/Layout'
+import Footer from './components/Footer'
 import RecruitmentProcess from "./pages/RecruitmentProcess";
 import Internships from "./pages/Internships";
 import Placement from "./pages/Placement";
+import  ContactUs from "./pages/ContactUs"
 import ContactUs from "./pages/ContactUs";
 import Sidebar from "./components/SideBar";
 import Login from "./pages/Login";
@@ -15,6 +16,15 @@ const App = () => {
   return (
     <div>
       <Layout />
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}></Route>
+        <Route path="/contactus" element={<ContactUs/>}></Route>
+        <Route path="/recruitment process" element={<RecruitmentProcess/>}></Route>
+        <Route path="/internships" element={<Internships/>}></Route>
+        <Route path="/placements" element={<Placement/>}></Route>
+        <Route  path="/profile" element={<Profile/>}></Route>
+      </Routes>
      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
