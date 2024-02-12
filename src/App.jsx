@@ -16,7 +16,6 @@ const App = () => {
     <>
     <div>
       <Layout />
-      <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
         <Route path="/contactus" element={<ContactUs/>}></Route>
@@ -26,7 +25,6 @@ const App = () => {
         <Route  path="/profile" element={<Profile/>}></Route>
         <Route  path="/login" element={<Login />}></Route>
       </Routes>
-      </BrowserRouter>
       <Footer />
     </div>
     </>
