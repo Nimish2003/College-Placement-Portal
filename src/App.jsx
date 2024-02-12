@@ -8,9 +8,12 @@ import RecruitmentProcess from "./pages/RecruitmentProcess";
 import Internships from "./pages/Internships";
 import Placement from "./pages/Placement";
 import  ContactUs from "./pages/ContactUs"
+import Sidebar from "./components/SideBar";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
+    <>
     <div>
       <Layout />
       <BrowserRouter>
@@ -25,6 +28,7 @@ const App = () => {
       </BrowserRouter>
       <Footer />
     </div>
+    </>
   );
 };
 
