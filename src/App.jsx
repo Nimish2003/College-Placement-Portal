@@ -10,26 +10,27 @@ import Placement from "./pages/Placement";
 import ContactUs from "./pages/ContactUs"
 import Sidebar from "./components/SideBar";
 import Login from "./pages/Login";
+import LocomotiveScroll from 'locomotive-scroll';
+
+const locomotiveScroll = new LocomotiveScroll();
+
 
 const App = () => {
+  
   return (
     <>
-      {/* Conditionally render Layout and Sidebar based on the route */}
-      {!isLoginPage() && <Layout />}
+   <Layout/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contactus" element={<ContactUs />} />
-        <Route path="/recruitment process" element={<RecruitmentProcess />} />
+        <Route path="/recruitment-process" element={<RecruitmentProcess />} />
         <Route path="/internships" element={<Internships />} />
         <Route path="/placements" element={<Placement />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-      {/* Conditionally render Footer based on the route */}
-      {!isLoginPage() && <Footer />}
-    </>
+      </>
   );
 };
 
 export default App;
-  
