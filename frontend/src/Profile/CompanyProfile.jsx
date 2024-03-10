@@ -143,58 +143,60 @@ function CompanyProfile() {
               </div>
             </div>
 
-            <p className="text-sm font-bold text-gray-900">Company Description</p>
+            <p className="text-sm font-bold text-gray-900">
+              Company Description
+            </p>
 
             <div className="col-span-2 grid">
-        <div className="w-full">
-          <label
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            htmlFor="mission"
-          >
-            Mission
-          </label>
-          <textarea
-            className="flex h-20 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Enter company mission"
-            id="mission"
-            name="mission"
-          />
-        </div>
-      </div>
+              <div className="w-full">
+                <label
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  htmlFor="mission"
+                >
+                  Mission
+                </label>
+                <textarea
+                  className="flex h-20 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Enter company mission"
+                  id="mission"
+                  name="mission"
+                />
+              </div>
+            </div>
 
-      <div className="col-span-2 grid">
-        <div className="w-full">
-          <label
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            htmlFor="values"
-          >
-            Values
-          </label>
-          <textarea
-            className="flex h-20 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Enter company values"
-            id="values"
-            name="values"
-          />
-        </div>
-      </div>
+            <div className="col-span-2 grid">
+              <div className="w-full">
+                <label
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  htmlFor="values"
+                >
+                  Values
+                </label>
+                <textarea
+                  className="flex h-20 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Enter company values"
+                  id="values"
+                  name="values"
+                />
+              </div>
+            </div>
 
-      <div className="col-span-2 grid">
-        <div className="w-full">
-          <label
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            htmlFor="culture"
-          >
-            Culture
-          </label>
-          <textarea
-            className="flex h-20 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Enter company culture"
-            id="culture"
-            name="culture"
-          />
-        </div>
-      </div>
+            <div className="col-span-2 grid">
+              <div className="w-full">
+                <label
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  htmlFor="culture"
+                >
+                  Culture
+                </label>
+                <textarea
+                  className="flex h-20 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Enter company culture"
+                  id="culture"
+                  name="culture"
+                />
+              </div>
+            </div>
 
             <div className="col-span-2 grid">
               <button
