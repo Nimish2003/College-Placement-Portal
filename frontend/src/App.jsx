@@ -12,7 +12,7 @@ import Login from "./pages/Login.jsx";
 import LocomotiveScroll from "locomotive-scroll";
 import RecruiterProfileForm from "./pages/RecruiterProfileForm.jsx";
 import Academic from "./Profile/Academic.jsx";
-import Professional from "./Profile/Professional.jsx";
+import Professional from './Profile/Professional.jsx';
 import CompanyProfile from "./Profile/CompanyProfile.jsx";
 
 const locomotiveScroll = new LocomotiveScroll();
@@ -30,7 +30,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recruiterform" element={<RecruiterProfileForm />} />
-        <Route path="/company-profile" element={<CompanyProfile />} />
+        <Route path="/company-profile" element={<CompanyProfile/>} />
         <Route path="/profile/academic" element={<Academic />} />
         <Route path="/profile/professional" element={<Professional />} />
       </Routes>
