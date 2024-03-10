@@ -8,7 +8,7 @@ const Home = () => {
   useEffect(() => {
     const initLocomotiveScroll = () => {
       const scroll = new LocomotiveScroll({
-        el: document.querySelector("#your-scroll-container-id"),
+        el: document.querySelector("#Home"),
         smooth: true,
         // Add other locomotive-scroll options as needed
       });
@@ -20,19 +20,15 @@ const Home = () => {
   return (
     <>
       <div className="flex">
-        <div
-          id="your-scroll-container-id"
-          className="relative w-full bg-white"
-         
-        >
-          <div className="mx-auto max-w-7xl lg:px-8"  >
+        <div id="Home" className="relative w-full bg-white">
+          <div className="mx-auto max-w-7xl lg:px-8">
             <div className=" flex flex-col justify-center px-4 py-10 lg:px-6">
-              <div >
+              <div>
                 <img
                   className="aspect-[3/2] w-full rounded-lg bg-gray-50 object-cover lg:aspect-auto lg:h-[400px]"
                   data-scroll
                   data-scroll-speed="1"
-                  data-scroll-direction= "horizontal"
+                  data-scroll-direction="horizontal"
                   src={CoverPhoto}
                   alt="Cover Page"
                 />
