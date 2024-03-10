@@ -3,7 +3,7 @@ import React from "react";
 
 // const steps = ["Personal Information", "Payment Method", "Confirmation"];
 
-export function EditProfileForm() {
+export default function EditProfileForm() {
   return (
     <div className="ml-auto mr-auto mt-10 my-4 w-[calc(100%-64rem)]">
       <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
