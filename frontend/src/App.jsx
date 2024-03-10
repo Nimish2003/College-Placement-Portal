@@ -11,6 +11,7 @@ import ContactUs from "./pages/ContactUs";
 import Login from "./pages/Login";
 import LocomotiveScroll from "locomotive-scroll";
 import RecruiterProfileForm from "./pages/RecruiterProfileForm";
+import CompanyProfile from "./Profile/CompanyProfile";
 
 const locomotiveScroll = new LocomotiveScroll();
 
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recruiterform" element={<RecruiterProfileForm />} />
+        <Route path="/companyprofile" element={<CompanyProfile />} />
       </Routes>
       <Footer />
     </>
