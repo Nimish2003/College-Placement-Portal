@@ -1,6 +1,6 @@
 import React from "react";
 
-export function CompanyProfile() {
+export default function CompanyProfile() {
   return (
     <div className="mx-auto w-full max-w-7xl bg-slate-100 py-2">
       <div className="mx-auto my-4 max-w-2xl md:my-6">
