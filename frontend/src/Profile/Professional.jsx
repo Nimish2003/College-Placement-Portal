@@ -112,9 +112,16 @@ export default function Professional() {
               </div>
             </div>
 
+            <div className="col-span-2 grid">
+              <p className="text-sm font-bold text-gray-900">Projetcs</p>
             <ProjectForm />
-
+            </div>
+            
+            <div className="col-span-2 grid">
+              <p className="text-sm font-bold text-gray-900">Certifications</p>
             <Certificate />
+            </div>
+            
 
             <div className="col-span-2 grid">
               <div className="w-full">

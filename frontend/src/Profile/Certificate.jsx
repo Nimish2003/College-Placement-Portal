@@ -139,7 +139,8 @@ const Certificate = () => {
       ))}
       <button
         onClick={addCertification}
-        className="w-full h-10 px-3 mt-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300"
+        className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        
       >
         Add Certification
       </button>
