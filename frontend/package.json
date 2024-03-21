@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@mui/material": "^5.15.11",
-    "@reduxjs/toolkit": "^2.2.1",
+    "@reduxjs/toolkit": "^2.2.2",
     "bootstrap": "^5.3.2",
-    "framer-motion": "^11.0.14",
+    "framer-motion": "^11.0.18",
     "locomotive-scroll": "^5.0.0-beta.11",
     "lucide-react": "^0.323.0",
     "react": "^18.2.0",
