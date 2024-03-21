@@ -14,11 +14,6 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      validate(value) {
-        if (!/\S+@\S+\.\S+/.test(value)) {
-          throw new Error("Email is invalid");
-        }
-      },
     },
     password: {
       type: String,
@@ -48,6 +43,9 @@ const UserSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Academics",
     },
+    refreshToken: {
+      type: String,
+    }
   },
   { timestamps: true }
 );
