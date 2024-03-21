@@ -11,13 +11,18 @@
   },
   "dependencies": {
     "@mui/material": "^5.15.11",
+    "@reduxjs/toolkit": "^2.2.1",
     "bootstrap": "^5.3.2",
+    "framer-motion": "^11.0.14",
     "locomotive-scroll": "^5.0.0-beta.11",
     "lucide-react": "^0.323.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.0",
-    "styled-components": "^6.1.8"
+    "react-toastify": "^10.0.5",
+    "styled-components": "^6.1.8",
+    "toastify": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

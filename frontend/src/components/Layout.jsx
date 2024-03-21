@@ -1,15 +1,15 @@
-'use client'
-import React from 'react'
-import ResponsiveAppBar from './ResponsiveAppBar'
-import Sidebar from './SideBar'
+import React from 'react';
+import ResponsiveAppBar from './ResponsiveAppBar';
+import Footer from './Footer';
 
-
-const Layout = () => {
+const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <ResponsiveAppBar />
+      <main className="flex-grow">{children}</main>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;
