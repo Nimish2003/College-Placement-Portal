@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MyComponent from "./MyCompenent";
 import MyComponent1 from "./MyComponent1";
+import MyComponent2 from "./MyComponent2";
 
 export default function Academic() {
   const [educationType, setEducationType] = useState("");
@@ -16,14 +17,13 @@ export default function Academic() {
         <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
           <p className="text-sm font-bold text-gray-900">Academic Details</p>
           <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">
-            
-          <div className="col-span-2 grid">
+            <div className="col-span-2 grid">
               <div className="w-full">
                 <label
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   htmlFor="board10thMarks"
                 >
-                    10th Standard Marks
+                  10th Standard Marks
                 </label>
                 <input
                   className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
@@ -33,7 +33,7 @@ export default function Academic() {
                 ></input>
               </div>
             </div>
-            
+
             <div className="col-span-2 grid">
               {/* Dropdown to select education type */}
               <div className="w-full mb-4">
@@ -95,21 +95,8 @@ export default function Academic() {
               )}
             </div>
 
-            <div className="col-span-2 grid">
-              <div className="w-full">
-                <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor="Branch"
-                >
-                  Branch of Engineering
-                </label>
-                <input
-                  className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                  type="text"
-                  placeholder="Enter your branch"
-                  id="branch"
-                ></input>
-              </div>
+            <div>
+              <MyComponent2 />
             </div>
 
             <div className="col-span-2 grid">
