@@ -62,11 +62,11 @@ function App() {
           element: <CompanyProfile />
         },
         {
-          path:"/profile/academic",
+          path:"/academic",
           element:<Academic />
         },
         {
-          path:"/profile/professional",
+          path:"/professional",
           element: <Professional />
         },
         {
