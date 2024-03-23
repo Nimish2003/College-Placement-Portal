@@ -27,6 +27,7 @@ router.route("/academics").get(getUserAcademics);
 //secured routes
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
+router.route("/profile").post(verifyJWT, )
 //experimental route
 
 
