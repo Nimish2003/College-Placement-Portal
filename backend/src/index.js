@@ -1,11 +1,12 @@
 import dotenv from "dotenv";
 import connecDB from "./db/index.js";
 import { app } from "./app.js";
-
+import router from "./routes/user.routes.js";
 dotenv.config({
   path: "./.env",
 });
 
+app.use("/api/auth", router)
 const port = process.env.PORT || 5000;
 
 connecDB()

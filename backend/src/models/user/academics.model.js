@@ -1,5 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
+const userInfo = new Schema({
+  email: String,
+  academic: [academicsSchema],
+})
+
 const backlogSchema = new Schema({
   subject: {
     type: String,

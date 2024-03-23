@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUploader.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { Academics } from "../models/user/academics.model.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -194,6 +195,28 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 });
 
+// to get academic details
+async function getUserAcademics(req, res) {
+  const userEmail = req.params.email;
+
+  try {
+    // Find the user document based on the email
+    const user = await Academics.findOne({ 'userInfo.email': userEmail });
+
+    if (!user) {
+      // If user not found, return 404 status with a message
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Return academic details of the user
+    return res.json({ academics: user.userInfo.academic });
+  } catch (error) {
+    // If any error occurs, return 500 status with an error message
+    console.error('Error fetching user academics:', error);
+    return res.status(500).json({ error: 'Error fetching user academics' });
+  }
+}
+
 const logoutUser = asyncHandler(async (req, res) => {
   // check auth middleware first from where user id flows to here
   await User.findByIdAndUpdate(
@@ -272,4 +295,4 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+export { registerUser, loginUser, logoutUser, refreshAccessToken, getUserAcademics };
