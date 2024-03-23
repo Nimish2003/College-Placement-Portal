@@ -9,13 +9,17 @@ import { Academics } from "../models/user/academics.model.js";
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
+    console.log("User1:", user);
+    if (!user || !user.isActive)
+      throw new ApiError("User not found or is inactive", 401);
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
-
+    console.log("Access:", accessToken);
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false }); // To bypass validation on tokens generation
 
     if (!accessToken || !refreshToken) {
+      console.log("Error generating tokens:", error); // Error object is not defined here
       throw new ApiError("Access token or refresh token is empty");
     }
 
@@ -23,10 +27,12 @@ const generateAccessAndRefreshToken = async (userId) => {
   } catch (error) {
     throw new ApiError(
       500,
-      "Something went wrong while generating refresh token and access token!"
+      "Something went wrong while generating refresh token and access token!",
+      error.message
     );
   }
 };
+
 
 const registerUser = asyncHandler(async (req, res) => {
   //1.get user details from frontend
@@ -38,7 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
     address,
     contactNumber,
     dateOfBirth,
-    gender
+    gender,
   } = req.body;
   // console.log("User Details",req.body);
 
@@ -58,10 +64,8 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required!!");
   }
 
- 
-
   //3.check if user(using email or username) already exists or not
-  const existedUser = await User.findOne({email});
+  const existedUser = await User.findOne({ email });
 
   if (existedUser) {
     throw new ApiError(409, "This email or username already exist!");
@@ -87,35 +91,28 @@ const registerUser = asyncHandler(async (req, res) => {
   //   throw new ApiError(400, "ProfilePic file is required");
   // }
 
-  let  profile_picLocalPath;
+  let profile_picLocalPath;
   if (
     req.files &&
     Array.isArray(req.files.profile_pic) &&
     req.files.profile_pic.length > 0
   ) {
-     profile_picLocalPath = req.files. profile_pic[0].path;
+    profile_picLocalPath = req.files.profile_pic[0].path;
   }
-
-
-
-
- 
 
   //5.upload to cloudinary
   const profile_pic = await uploadOnCloudinary(profile_picLocalPath);
-
-
 
   //6.create user object - create entry in db
   const user = await User.create({
     firstName,
     lastName,
-    profile_pic: profile_pic?.url||"",
+    profile_pic: profile_pic?.url || "",
     email,
     password,
     contactNumber,
     dateOfBirth,
-    gender
+    gender,
   });
 
   //7.remove password and refresh token field from response
@@ -144,16 +141,14 @@ const loginUser = asyncHandler(async (req, res) => {
   //5.access and refresh token
   //6.send cookie
 
-  const { email, username, password } = req.body;
+  const { email, password } = req.body;
   console.log("User Details for login:", email);
 
   if (!email) {
     throw new ApiError(400, "Email is required!");
   }
 
-  const user = await User.findOne({
-    $or: [{ username }, { email }],
-  });
+  const user = await User.findOne({ email });
 
   // console.log("User", user);
 
@@ -203,25 +198,110 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 });
 
+// Create academic details
+const createAcademicDetails = async (req, res) => {
+  try {
+    const {
+      userId,
+      sscMarks,
+      sscSchoolName,
+      sscYearOfPassing,
+      hscMarks,
+      hscCollegeName,
+      hscYearOfPassing,
+      diplomaMarks,
+      diplomaCollegeName,
+      diplomaYearOfPassing,
+      degreeCollegeName,
+      degreeBranch,
+      degreeYearOfStudy,
+      semesterGPAs,
+      backlog,
+    } = req.body;
+
+    // Get the authenticated user's ID from the request
+    userId = req.user._id;
+
+    // Create academic details
+    // Create academic details
+    const newAcademics = await Academics.create({
+      userId,
+      ssc: {
+        marks: sscMarks,
+        school_name: sscSchoolName,
+        year_of_passing: sscYearOfPassing,
+      },
+      hsc: {
+        marks: hscMarks,
+        college_name: hscCollegeName,
+        year_of_passing: hscYearOfPassing,
+      },
+      diploma: {
+        marks: diplomaMarks,
+        college_name: diplomaCollegeName,
+        year_of_passing: diplomaYearOfPassing,
+      },
+      degree: {
+        college_name: degreeCollegeName,
+        branch: degreeBranch,
+        year_of_study: degreeYearOfStudy,
+        semester_gpas: semesterGPAs,
+        backlog,
+      },
+    });
+
+    res.status(201).json({ message: "Academic details created successfully" });
+  } catch (error) {
+    console.error("Error creating academic details:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Create professional details
+const createProfessionalDetails = async (req, res) => {
+  try {
+    const { skills, internships, ...otherProfessionalDetails } = req.body;
+
+    // Get the authenticated user's ID from the request
+    const userId = req.user.id;
+
+    // Create professional details
+    const newSkillwork = await Skillwork.create({
+      userId,
+      skills,
+      internships,
+      ...otherProfessionalDetails,
+    });
+
+    res
+      .status(201)
+      .json({ message: "Professional details created successfully" });
+  } catch (error) {
+    console.error("Error creating professional details:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+//
+
 // to get academic details
 async function getUserAcademics(req, res) {
   const userEmail = req.params.email;
 
   try {
     // Find the user document based on the email
-    const user = await Academics.findOne({ 'userInfo.email': userEmail });
+    const user = await Academics.findOne({ "userInfo.email": userEmail });
 
     if (!user) {
       // If user not found, return 404 status with a message
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Return academic details of the user
     return res.json({ academics: user.userInfo.academic });
   } catch (error) {
     // If any error occurs, return 500 status with an error message
-    console.error('Error fetching user academics:', error);
-    return res.status(500).json({ error: 'Error fetching user academics' });
+    console.error("Error fetching user academics:", error);
+    return res.status(500).json({ error: "Error fetching user academics" });
   }
 }
 
@@ -303,4 +383,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, getUserAcademics };
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  createAcademicDetails,
+};
