@@ -1,4 +1,4 @@
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { asyncHandler } from "../utils/AsyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUploader.js";
@@ -30,12 +30,28 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //1.get user details from frontend
-  const { fullname, email, username, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    address,
+    contactNumber,
+    dateOfBirth,
+  } = req.body;
   // console.log("User Details",req.body);
 
   //2.validation- not empty
   if (
-    [fullname, email, username, password].some((field) => field?.trim() === "")
+    [
+      firstName,
+      lastName,
+      email,
+      password,
+      address,
+      contactNumber,
+      dateOfBirth,
+    ].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required!!");
   }
@@ -59,38 +75,39 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // console.log("Req.files: ", req.files);
 
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  let coverImageLocalPath;
-  if (
-    req.files &&
-    Array.isArray(req.files.coverImage) &&
-    req.files.coverImage.length > 0
-  ) {
-    coverImageLocalPath = req.files.coverImage[0].path;
-  }
-  // console.log("CoverImagae:", coverImageLocalPath);
-  // console.log("Avatar Localpath:", avatarLocalPath);
+  const profilePicLocalPath = req.files?.profile_pic[0]?.path;
 
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is required");
+  // if (
+  //   req.files &&
+  //   Array.isArray(req.files.coverImage) &&
+  //   req.files.coverImage.length > 0
+  // ) {
+  //   coverImageLocalPath = req.files.coverImage[0].path;
+  // }
+  // console.log("CoverImagae:", coverImageLocalPath);
+  console.log("ProfilePic Localpath:", profilePicLocalPath);
+
+  if (!profilePicLocalPath) {
+    throw new ApiError(400, "ProfilePic file is required");
   }
 
   //5.upload to cloudinary
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
-  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+  const profile_pic = await uploadOnCloudinary(profilePicLocalPath);
 
-  if (!avatar) {
+  if (!profile_pic) {
     throw new ApiError(400, "Avatar file is required");
   }
 
   //6.create user object - create entry in db
   const user = await User.create({
-    fullname,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    firstName,
+    lastName,
+    profile_pic: profile_pic.url,
     email,
     password,
-    username: username.toLowerCase(),
+    contactNumber,
+    dateOfBirth,
+    gender,
   });
 
   //7.remove password and refresh token field from response
