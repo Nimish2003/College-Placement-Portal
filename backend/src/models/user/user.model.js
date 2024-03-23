@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
       number: String,
     },
     address: {
-      type: String
+      type: String,
     },
     dateOfBirth: String,
     gender: {
@@ -42,7 +42,6 @@ const userSchema = new mongoose.Schema(
     },
     profile_pic: {
       type: String, //cloudinary url
-   
     },
     academics: {
       type: mongoose.Schema.Types.ObjectId,
@@ -73,30 +72,41 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 
 //jwt.sign(payload, jwt_secret, secret_expiry)
 userSchema.methods.generateAccessToken = async function () {
-  return await jwt.sign(
-    {
-      _id: this._id,
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    }
-  );
+  try {
+    return await jwt.sign(
+      {
+        _id: this._id,
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+      }
+    );
+  } catch (error) {
+    console.error('Error generating access token:', error);
+    throw error;
+  }
 };
 
 userSchema.methods.generateRefreshToken = async function () {
-  return await jwt.sign(
-    {
-      _id: this._id,
-    },
-    process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-    }
-  );
+  try {
+    return await jwt.sign(
+      {
+        _id: this._id,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+      }
+    );
+  } catch (error) {
+    console.error('Error generating refresh token:', error);
+    throw error;
+  }
 };
+
 
 export const User = mongoose.model("User", userSchema);

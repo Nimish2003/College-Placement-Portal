@@ -9,17 +9,14 @@ import { Academics } from "../models/user/academics.model.js";
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
-    console.log("User1:", user);
-    if (!user || !user.isActive)
-      throw new ApiError("User not found or is inactive", 401);
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
-    console.log("Access:", accessToken);
+   console.log(accessToken, refreshToken)
     user.refreshToken = refreshToken;
+    // console.log(user.refreshToken)
     await user.save({ validateBeforeSave: false }); // To bypass validation on tokens generation
 
     if (!accessToken || !refreshToken) {
-      console.log("Error generating tokens:", error); // Error object is not defined here
       throw new ApiError("Access token or refresh token is empty");
     }
 
@@ -32,7 +29,6 @@ const generateAccessAndRefreshToken = async (userId) => {
     );
   }
 };
-
 
 const registerUser = asyncHandler(async (req, res) => {
   //1.get user details from frontend
