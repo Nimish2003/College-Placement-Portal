@@ -3,19 +3,19 @@ import React, { useState } from "react";
 const ProjectForm = () => {
   const [projects, setProjects] = useState([
     {
-      type: 'Academic',
-      title: '',
-      description: '',
-      technologiesUsed: '',
-      outcome: ''
+      type: "Academic",
+      title: "",
+      description: "",
+      technologiesUsed: "",
+      outcome: "",
     },
     {
-      type: 'Personal',
-      title: '',
-      description: '',
-      technologiesUsed: '',
-      outcome: ''
-    }
+      type: "Personal",
+      title: "",
+      description: "",
+      technologiesUsed: "",
+      outcome: "",
+    },
   ]);
 
   const handleInputChange = (index, e) => {
@@ -26,13 +26,16 @@ const ProjectForm = () => {
   };
 
   const addProject = () => {
-    setProjects([...projects, {
-      type: '',
-      title: '',
-      description: '',
-      technologiesUsed: '',
-      outcome: ''
-    }]);
+    setProjects([
+      ...projects,
+      {
+        type: "",
+        title: "",
+        description: "",
+        technologiesUsed: "",
+        outcome: "",
+      },
+    ]);
   };
 
   const removeProject = (index) => {
@@ -117,7 +120,7 @@ const ProjectForm = () => {
               className="block text-sm font-medium leading-none text-gray-700"
               htmlFor={`outcome-${index}`}
             >
-              Outcome
+              Project URL
             </label>
             <textarea
               id={`outcome-${index}`}

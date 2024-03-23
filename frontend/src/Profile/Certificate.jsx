@@ -1,36 +1,19 @@
 import React, { useState } from "react";
 
 const Certificate = () => {
-  const [projects, setProjects] = useState([
-    {
-      type: 'Academic',
-      title: '',
-      description: '',
-      technologiesUsed: '',
-      outcome: ''
-    },
-    {
-      type: 'Personal',
-      title: '',
-      description: '',
-      technologiesUsed: '',
-      outcome: ''
-    }
-  ]);
-
   const [certifications, setCertifications] = useState([
     {
-      type: 'Relevant Certifications',
-      title: '',
-      organization: '',
-      date: ''
+      type: "Relevant Certifications",
+      title: "",
+      organization: "",
+      date: "",
     },
     {
-      type: 'Professional Development Courses',
-      title: '',
-      organization: '',
-      date: ''
-    }
+      type: "Professional Development Courses",
+      title: "",
+      organization: "",
+      date: "",
+    },
   ]);
 
   const handleCertificationInputChange = (index, e) => {
@@ -41,12 +24,15 @@ const Certificate = () => {
   };
 
   const addCertification = () => {
-    setCertifications([...certifications, {
-      type: '',
-      title: '',
-      organization: '',
-      date: ''
-    }]);
+    setCertifications([
+      ...certifications,
+      {
+        type: "",
+        title: "",
+        organization: "",
+        date: "",
+      },
+    ]);
   };
 
   const removeCertification = (index) => {
@@ -57,8 +43,6 @@ const Certificate = () => {
 
   return (
     <div>
-    
-
       {certifications.map((certification, index) => (
         <div key={index} className="col-span-2 grid gap-4">
           <div className="w-full">
@@ -75,8 +59,12 @@ const Certificate = () => {
               onChange={(e) => handleCertificationInputChange(index, e)}
               className="w-full h-10 px-3 mt-1 text-sm placeholder-gray-600 border rounded-md focus:outline-none focus:ring-1 focus:ring-black/30 focus:border-black/30"
             >
-              <option value="Relevant Certifications">Relevant Certifications</option>
-              <option value="Professional Development Courses">Professional Development Courses</option>
+              <option value="Relevant Certifications">
+                Relevant Certifications
+              </option>
+              <option value="Professional Development Courses">
+                Professional Development Courses
+              </option>
             </select>
           </div>
 
@@ -140,7 +128,6 @@ const Certificate = () => {
       <button
         onClick={addCertification}
         className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        
       >
         Add Certification
       </button>

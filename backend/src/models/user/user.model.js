@@ -2,7 +2,14 @@ import mongoose from "mongoose";
 
 const UserSchema = new Schema(
   {
-    fullname: {
+    firstName: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+      index: true, //to make field searchable in optimized manner
+    },
+    lastName: {
       type: String,
       required: true,
       lowercase: true,
@@ -19,7 +26,7 @@ const UserSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
     },
-    phone: {
+    contactNumber: {
       countryCode: Number,
       number: String,
     },
@@ -43,9 +50,13 @@ const UserSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Academics",
     },
+    skills: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Skillwork",
+    },
     refreshToken: {
       type: String,
-    }
+    },
   },
   { timestamps: true }
 );
@@ -89,6 +100,5 @@ userSchema.methods.generateRefreshToken = async function () {
     }
   );
 };
-
 
 export const User = mongoose.model("User", UserSchema);

@@ -62,6 +62,11 @@ const academicsSchema = new Schema(
         enum: ["CS", "IT", "AIDS", "MECH", "EXTC"],
         required: true,
       },
+      year_of_study: {
+        type: String,
+        enum: ["FE", "SE", "TE", "BE"],
+        required: true,
+      },
       semester_gpas: [
         {
           semester: {
