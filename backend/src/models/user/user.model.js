@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-
-const UserSchema = new Schema(
+import bcrypt from "bcrypt";
+const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -31,20 +31,16 @@ const UserSchema = new Schema(
       number: String,
     },
     address: {
-      streetAddress: String,
-      apartment: String,
-      city: String,
-      state: String,
-      zip: String,
+      type: String
     },
-    dateOfBirth: Date,
+    dateOfBirth: String,
     gender: {
       type: String,
-      enum: ["Male", "Female", "Other"],
+      //enum: ["Male", "Female", "Other"],
     },
     profile_pic: {
       type: String, //cloudinary url
-      required: true,
+   
     },
     academics: {
       type: mongoose.Schema.Types.ObjectId,
@@ -101,4 +97,4 @@ userSchema.methods.generateRefreshToken = async function () {
   );
 };
 
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.model("User", userSchema);

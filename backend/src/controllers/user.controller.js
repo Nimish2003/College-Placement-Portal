@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import ApiError from "../utils/ApiError.js";
-import { User } from "../models/user.model.js";
+import { User } from "../models/user/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUploader.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
@@ -38,6 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
     address,
     contactNumber,
     dateOfBirth,
+    gender
   } = req.body;
   // console.log("User Details",req.body);
 
@@ -51,21 +52,16 @@ const registerUser = asyncHandler(async (req, res) => {
       address,
       contactNumber,
       dateOfBirth,
+      gender,
     ].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required!!");
   }
 
-  // var regexp =
-  //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  // if (!regexp.test(String(email).toLowerCase())) {
-  //   throw new ApiError(400, "Invalid Email!!");
-  // }
+ 
 
   //3.check if user(using email or username) already exists or not
-  const existedUser = await User.findOne({
-    $or: [{ username }, { email }],
-  });
+  const existedUser = await User.findOne({email});
 
   if (existedUser) {
     throw new ApiError(409, "This email or username already exist!");
@@ -75,39 +71,51 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // console.log("Req.files: ", req.files);
 
-  const profilePicLocalPath = req.files?.profile_pic[0]?.path;
+  // const profilePicLocalPath = req.files?.profile_pic[0]?.path;
 
-  // if (
-  //   req.files &&
-  //   Array.isArray(req.files.coverImage) &&
-  //   req.files.coverImage.length > 0
-  // ) {
-  //   coverImageLocalPath = req.files.coverImage[0].path;
+  // // if (
+  // //   req.files &&
+  // //   Array.isArray(req.files.coverImage) &&
+  // //   req.files.coverImage.length > 0
+  // // ) {
+  // //   coverImageLocalPath = req.files.coverImage[0].path;
+  // // }
+  // // console.log("CoverImagae:", coverImageLocalPath);
+  // console.log("ProfilePic Localpath:", profilePicLocalPath);
+
+  // if (!profilePicLocalPath) {
+  //   throw new ApiError(400, "ProfilePic file is required");
   // }
-  // console.log("CoverImagae:", coverImageLocalPath);
-  console.log("ProfilePic Localpath:", profilePicLocalPath);
 
-  if (!profilePicLocalPath) {
-    throw new ApiError(400, "ProfilePic file is required");
+  let  profile_picLocalPath;
+  if (
+    req.files &&
+    Array.isArray(req.files.profile_pic) &&
+    req.files.profile_pic.length > 0
+  ) {
+     profile_picLocalPath = req.files. profile_pic[0].path;
   }
+
+
+
+
+ 
 
   //5.upload to cloudinary
-  const profile_pic = await uploadOnCloudinary(profilePicLocalPath);
+  const profile_pic = await uploadOnCloudinary(profile_picLocalPath);
 
-  if (!profile_pic) {
-    throw new ApiError(400, "Avatar file is required");
-  }
+
 
   //6.create user object - create entry in db
   const user = await User.create({
     firstName,
     lastName,
-    profile_pic: profile_pic.url,
+    profile_pic: profile_pic?.url||"",
     email,
     password,
     contactNumber,
     dateOfBirth,
-    gender,
+    gender
   });
 
   //7.remove password and refresh token field from response

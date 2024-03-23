@@ -1,9 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-const userInfo = new Schema({
-  email: String,
-  academic: [academicsSchema],
-})
 
 const backlogSchema = new Schema({
   subject: {
@@ -90,6 +86,8 @@ const academicsSchema = new Schema(
   { timestamps: true }
 );
 
+
+  
 // Function to compute overall GPA based on semester-wise GPA
 academicsSchema.methods.computeOverallGPA = function () {
   const { semester_gpas } = this.degree;

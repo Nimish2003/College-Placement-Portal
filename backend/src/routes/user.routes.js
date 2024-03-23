@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-  download,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -29,6 +28,6 @@ router.route("/academics").get(getUserAcademics);
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 //experimental route
-router.route("/download").get(download);
+
 
 export default router;
