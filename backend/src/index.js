@@ -6,7 +6,7 @@ dotenv.config({
   path: "./.env",
 });
 
-app.use("/api/auth", router)
+
 const port = process.env.PORT || 5000;
 
 connecDB()

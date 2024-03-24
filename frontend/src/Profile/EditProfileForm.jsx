@@ -1,11 +1,48 @@
-import React from "react";
-//import { Home, ChevronRight, ShoppingCart } from "lucide-react";
-
-// const steps = ["Personal Information", "Payment Method", "Confirmation"];
+import React, { useState } from "react";
 
 export default function EditProfileForm() {
+  const [register, setRegister] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    dob: "",
+    address: "",
+    contactNumber: "",
+  });
+
+  // handle input change
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setRegister((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(register);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(register),
+      });
+
+      console.log("Registered Successfully", response);
+    } catch (error) {
+      console.log("Register error", error);
+    }
+  };
+
   return (
-    <div className="ml-auto mr-auto mt-10 my-4 w-[calc(100%-64rem)]">
+    <form
+      onSubmit={handleSubmit}
+      className="ml-auto mr-auto mt-10 my-4 w-[calc(100%-64rem)]"
+    >
       <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
         <p className="text-sm font-bold text-gray-900">Personal Info</p>
         <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">
@@ -21,6 +58,9 @@ export default function EditProfileForm() {
               type="text"
               placeholder="Enter your first name"
               id="firstName"
+              name="firstName"
+              value={register.firstName}
+              onChange={handleInput}
             ></input>
           </div>
 
@@ -36,6 +76,9 @@ export default function EditProfileForm() {
               type="text"
               placeholder="Enter your last name"
               id="lastName"
+              name="lastName"
+              value={register.lastName}
+              onChange={handleInput}
             ></input>
           </div>
           <div className="col-span-2 grid">
@@ -51,6 +94,9 @@ export default function EditProfileForm() {
                 type="email"
                 placeholder="Enter your email"
                 id="email"
+                name="email"
+                value={register.email}
+                onChange={handleInput}
               ></input>
             </div>
           </div>
@@ -68,6 +114,9 @@ export default function EditProfileForm() {
                 type="text"
                 placeholder="Enter your address"
                 id="address"
+                name="address"
+                value={register.address}
+                onChange={handleInput}
               ></input>
             </div>
           </div>
@@ -84,29 +133,37 @@ export default function EditProfileForm() {
                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 type="tel"
                 placeholder="Enter your contact number"
-                id="tel"
+                id="contactNumber"
+                name="contactNumber"
+                value={register.contactNumber}
+                onChange={handleInput}
               ></input>
             </div>
           </div>
 
-          <div class="col-span-2 grid">
-            <label for="DOB" class="block text-sm font-medium text-gray-700">
+          <div className="col-span-2 grid">
+            <label
+              htmlFor="DOB"
+              className="block text-sm font-medium text-gray-700"
+            >
               Date of Birth (DD/MM/YY)
             </label>
-            <div class="mt-1">
+            <div className="mt-1">
               <input
                 type="date"
-                name="DOB"
-                id="DOB"
+                name="dob"
+                id="dob"
                 autoComplete="cc-exp"
-                class="block h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                className="block h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                value={register.dob}
+                onChange={handleInput}
               />
             </div>
           </div>
 
           <div className="col-span-2 grid">
             <button
-              type="button"
+              type="submit"
               className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
             >
               Next
@@ -114,7 +171,6 @@ export default function EditProfileForm() {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
-

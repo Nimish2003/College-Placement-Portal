@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
-import ApiError from "../utils/ApiError.js";
+import {ApiError} from "../utils/ApiError.js";
 import { User } from "../models/user/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUploader.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -11,7 +11,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     const user = await User.findById(userId);
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
-   console.log(accessToken, refreshToken)
+    console.log(accessToken, refreshToken);
     user.refreshToken = refreshToken;
     // console.log(user.refreshToken)
     await user.save({ validateBeforeSave: false }); // To bypass validation on tokens generation
@@ -160,9 +160,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   /* as refresh token and access token will be required to generated more
  frequently we will be generating them in separate method above*/
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-    user._id
-  );
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
   // console.log(accessToken, refreshToken);
 
@@ -176,22 +174,28 @@ const loginUser = asyncHandler(async (req, res) => {
     secure: true,
   };
 
-  res.cookie("accessToken", accessToken, options);
-  res.cookie("refreshToken", refreshToken, options);
+  // res.cookie("accessToken", accessToken, options);
+  // res.cookie("refreshToken", refreshToken, options);
+
+  // console.log("Cookies:", res.cookies);
+  // console.log("Response Headers:", res.getHeaders());
 
   // Tokens are present here but not being set in table
-  console.log("tokens:", res.getHeaders());
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        user: loggedInUser,
-        accessToken,
-        refreshToken,
-      },
-      "User logged in successfully"
+  // console.log("tokens:", res.getHeaders());
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+        new ApiResponse(
+            200, 
+            {
+                user: loggedInUser, accessToken, refreshToken
+            },
+            "User logged In Successfully"
+        )
     )
-  );
+
 });
 
 // Create academic details

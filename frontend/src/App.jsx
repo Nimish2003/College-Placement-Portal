@@ -23,7 +23,6 @@ import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
 
 const locomotiveScroll = new LocomotiveScroll();
 
-
 function App() {
   const token = localStorage.getItem('token');
 
