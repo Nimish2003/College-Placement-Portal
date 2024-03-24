@@ -1,12 +1,14 @@
 import dotenv from "dotenv";
 import connecDB from "./db/index.js";
 import { app } from "./app.js";
-import router from "./routes/user.routes.js";
+import authRouter from "./routes/user.routes.js";
+import formRouter from "./routes/academics.routes.js";
 dotenv.config({
   path: "./.env",
 });
 
-app.use("/api/auth", router)
+app.use("/api/auth", authRouter)
+app.use("/api/form",formRouter)
 const port = process.env.PORT || 5000;
 
 connecDB()

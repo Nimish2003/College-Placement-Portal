@@ -14,6 +14,12 @@ const backlogSchema = new Schema({
 
 const academicsSchema = new Schema(
   {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+    },
     ssc: {
       marks: {
         type: Number,

@@ -188,6 +188,7 @@ const loginUser = asyncHandler(async (req, res) => {
         user: loggedInUser,
         accessToken,
         refreshToken,
+        email: loggedInUser.email,
       },
       "User logged in successfully"
     )
@@ -195,63 +196,63 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // Create academic details
-const createAcademicDetails = async (req, res) => {
-  try {
-    const {
-      userId,
-      sscMarks,
-      sscSchoolName,
-      sscYearOfPassing,
-      hscMarks,
-      hscCollegeName,
-      hscYearOfPassing,
-      diplomaMarks,
-      diplomaCollegeName,
-      diplomaYearOfPassing,
-      degreeCollegeName,
-      degreeBranch,
-      degreeYearOfStudy,
-      semesterGPAs,
-      backlog,
-    } = req.body;
+// const createAcademicDetails = async (req, res) => {
+//   try {
+//     const {
+//       userId,
+//       sscMarks,
+//       sscSchoolName,
+//       sscYearOfPassing,
+//       hscMarks,
+//       hscCollegeName,
+//       hscYearOfPassing,
+//       diplomaMarks,
+//       diplomaCollegeName,
+//       diplomaYearOfPassing,
+//       degreeCollegeName,
+//       degreeBranch,
+//       degreeYearOfStudy,
+//       semesterGPAs,
+//       backlog,
+//     } = req.body;
 
-    // Get the authenticated user's ID from the request
-    userId = req.user._id;
+//     // Get the authenticated user's ID from the request
+//     userId = req.user._id;
 
-    // Create academic details
-    // Create academic details
-    const newAcademics = await Academics.create({
-      userId,
-      ssc: {
-        marks: sscMarks,
-        school_name: sscSchoolName,
-        year_of_passing: sscYearOfPassing,
-      },
-      hsc: {
-        marks: hscMarks,
-        college_name: hscCollegeName,
-        year_of_passing: hscYearOfPassing,
-      },
-      diploma: {
-        marks: diplomaMarks,
-        college_name: diplomaCollegeName,
-        year_of_passing: diplomaYearOfPassing,
-      },
-      degree: {
-        college_name: degreeCollegeName,
-        branch: degreeBranch,
-        year_of_study: degreeYearOfStudy,
-        semester_gpas: semesterGPAs,
-        backlog,
-      },
-    });
+//     // Create academic details
+//     // Create academic details
+//     const newAcademics = await Academics.create({
+//       userId,
+//       ssc: {
+//         marks: sscMarks,
+//         school_name: sscSchoolName,
+//         year_of_passing: sscYearOfPassing,
+//       },
+//       hsc: {
+//         marks: hscMarks,
+//         college_name: hscCollegeName,
+//         year_of_passing: hscYearOfPassing,
+//       },
+//       diploma: {
+//         marks: diplomaMarks,
+//         college_name: diplomaCollegeName,
+//         year_of_passing: diplomaYearOfPassing,
+//       },
+//       degree: {
+//         college_name: degreeCollegeName,
+//         branch: degreeBranch,
+//         year_of_study: degreeYearOfStudy,
+//         semester_gpas: semesterGPAs,
+//         backlog,
+//       },
+//     });
 
-    res.status(201).json({ message: "Academic details created successfully" });
-  } catch (error) {
-    console.error("Error creating academic details:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res.status(201).json({ message: "Academic details created successfully" });
+//   } catch (error) {
+//     console.error("Error creating academic details:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
 // Create professional details
 const createProfessionalDetails = async (req, res) => {
@@ -384,5 +385,5 @@ export {
   loginUser,
   logoutUser,
   refreshAccessToken,
-  createAcademicDetails,
+  //createAcademicDetails,
 };
