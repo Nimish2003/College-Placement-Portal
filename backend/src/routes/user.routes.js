@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
-  loginUser,
+  //loginUser,
+  login,
   logoutUser,
   refreshAccessToken,
   registerUser,
@@ -21,7 +22,8 @@ router.route("/register").post(
   registerUser
 );
 
-router.route("/login").post(loginUser);
+//router.route("/login").post(loginUser);
+router.route("/login").post(login);
 // router.route("/academics").get(getUserAcademics);
 
 //secured routes

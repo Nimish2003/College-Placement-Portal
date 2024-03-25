@@ -5,6 +5,13 @@ import { uploadOnCloudinary } from "../utils/fileUploader.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { Academics } from "../models/user/academics.model.js";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import { spawn } from "child_process";
+import dotenv from "dotenv";
+import nodemailer from "nodemailer"
+
+dotenv.config({path: "./.env",});
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -29,6 +36,42 @@ const generateAccessAndRefreshToken = async (userId) => {
     );
   }
 };
+
+function generateOTP() {
+  return crypto.randomInt(100000, 999999);
+};
+
+// send email
+const sendEmail = async (email) => {
+  try {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MAIL,
+        pass: process.env.MAILPASS,
+      },
+    });
+
+    let otp = generateOTP();
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User does not exist!" });
+    user.otp = otp;
+    await user.save();
+    let mailOptions = {
+      from: `Rajiv Gandhi Institute of Technology Placement Cell <support>`,
+      to: email,
+      subject: "OTP for Verification",
+      text: `Your OTP for verification is: ${otp}`,
+    };
+    await transporter.sendMail(mailOptions);
+    // res.status(200).json({ message: "success" });
+  } catch (error) {
+    console.log(error);
+    // res.status(500).json({ message: "Internal Server Error" });
+  }
+}; 
+
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -64,6 +107,7 @@ const verifyOtp = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 const registerUser = asyncHandler(async (req, res) => {
   //1.get user details from frontend
   const {
@@ -166,71 +210,87 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
-const loginUser = asyncHandler(async (req, res) => {
-  //1.ask for email and password
-  //2.check if fields are empty or not
-  //3.check if user exists or not by checking email
-  //4.validate password
-  //5.access and refresh token
-  //6.send cookie
-
-  const { email, password } = req.body;
-  console.log("User Details for login:", email);
-
-  if (!email) {
-    throw new ApiError(400, "Email is required!");
+//Login
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User does not exist!" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Incorrect Password!" });
+    sendEmail(email);
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
+}
 
-  const user = await User.findOne({ email });
+// const loginUser = asyncHandler(async (req, res) => {
+//   //1.ask for email and password
+//   //2.check if fields are empty or not
+//   //3.check if user exists or not by checking email
+//   //4.validate password
+//   //5.access and refresh token
+//   //6.send cookie
 
-  // console.log("User", user);
+//   const { email, password } = req.body;
+//   console.log("User Details for login:", email);
 
-  if (!user) {
-    throw new ApiError(404, "User does not exist");
-  }
+//   if (!email) {
+//     throw new ApiError(400, "Email is required!");
+//   }
 
-  const isPasswordValid = await user.isPasswordCorrect(password);
+//   const user = await User.findOne({ email });
 
-  if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentails");
-  }
+//   // console.log("User", user);
 
-  /* as refresh token and access token will be required to generated more
- frequently we will be generating them in separate method above*/
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-    user._id
-  );
+//   if (!user) {
+//     throw new ApiError(404, "User does not exist");
+//   }
 
-  // console.log(accessToken, refreshToken);
+//   const isPasswordValid = await user.isPasswordCorrect(password);
 
-  const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+//   if (!isPasswordValid) {
+//     throw new ApiError(401, "Invalid user credentails");
+//   }
 
-  //this are security setting which make refreshToken only modified only from server side
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
+//   /* as refresh token and access token will be required to generated more
+//  frequently we will be generating them in separate method above*/
+//   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+//     user._id
+//   );
 
-  res.cookie("accessToken", accessToken, options);
-  res.cookie("refreshToken", refreshToken, options);
+//   // console.log(accessToken, refreshToken);
 
-  // Tokens are present here but not being set in table
-  console.log("tokens:", res.getHeaders());
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        user: loggedInUser,
-        accessToken,
-        refreshToken,
-        email: loggedInUser.email,
-      },
-      "User logged in successfully"
-    )
-  );
-});
+//   const loggedInUser = await User.findById(user._id).select(
+//     "-password -refreshToken"
+//   );
+
+//   //this are security setting which make refreshToken only modified only from server side
+//   const options = {
+//     httpOnly: true,
+//     secure: true,
+//   };
+
+//   res.cookie("accessToken", accessToken, options);
+//   res.cookie("refreshToken", refreshToken, options);
+
+//   // Tokens are present here but not being set in table
+//   console.log("tokens:", res.getHeaders());
+//   return res.status(200).json(
+//     new ApiResponse(
+//       200,
+//       {
+//         user: loggedInUser,
+//         accessToken,
+//         refreshToken,
+//         email: loggedInUser.email,
+//       },
+//       "User logged in successfully"
+//     )
+//   );
+// });
 
 // Create academic details
 // const createAcademicDetails = async (req, res) => {
@@ -422,7 +482,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 export {
   verifyOtp,  
   registerUser,
-  loginUser,
+  //loginUser,
+  login,
   logoutUser,
   refreshAccessToken
 };

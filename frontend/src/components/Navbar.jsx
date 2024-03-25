@@ -1,160 +1,161 @@
-import React from 'react'
-import { Menu, X, ChevronRight } from 'lucide-react'
-import Profile from "../images/profile.jpeg"
+import { Fragment, useEffect } from 'react'
+import { useState } from 'react'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import logo from '../assets/logo-hck.svg'
 
-const menuItems = [
-  {
-    name: 'Home',
-    href: '/home',
-  },
-  {
-    name: 'Contact Us',
-    href: 'contactus',
-  },
-  {
-    name: 'Recruitment Process',
-    href: 'recruitment process',
-  },
-  {
-    name: 'Interships',
-    href: 'internships',
-  },
-  {
-    name: 'Placements',
-    href: 'placements',
-  },
-  {
-    name: 'Profile',
-    href: 'profile',
-  },
+const navigation = [
+    { name: 'Home', href: '/home', current: false },
+    { name: 'Placements', href: '/placements', current: false },
+    { name: 'Profile', href: '/profile', current: false },
+
 ]
 
-function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+function NavBar() {
+    const [path, setPath] = useState(window.location.pathname)
+
+    useEffect(() => {
+        setPath(window.location.pathname)
+    }, [window.location.pathname])
 
   return (
-    <div className="sticky top-0 z-10 text-white bg-[#0099ff] ">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
-        <div className="inline-flex items-center space-x-2">
-          <span>
-          <svg
-              width="30"  
-              height="30"
-              viewBox="0 0 50 56"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M23.2732 0.2528C20.8078 1.18964 2.12023 12.2346 1.08477 13.3686C0 14.552 0 14.7493 0 27.7665C0 39.6496 0.0986153 41.1289 0.83823 42.0164C2.12023 43.5449 23.2239 55.4774 24.6538 55.5267C25.9358 55.576 46.1027 44.3832 48.2229 42.4602C49.3077 41.474 49.3077 41.3261 49.3077 27.8158C49.3077 14.3055 49.3077 14.1576 48.2229 13.1714C46.6451 11.7415 27.1192 0.450027 25.64 0.104874C24.9497 -0.0923538 23.9142 0.00625992 23.2732 0.2528ZM20.2161 21.8989C20.2161 22.4906 18.9835 23.8219 17.0111 25.3997C15.2361 26.7803 13.8061 27.9637 13.8061 28.0623C13.8061 28.1116 15.2361 29.0978 16.9618 30.2319C18.6876 31.3659 20.2655 32.6479 20.4134 33.0917C20.8078 34.0286 19.871 35.2119 18.8355 35.2119C17.8001 35.2119 9.0233 29.3936 8.67815 28.5061C8.333 27.6186 9.36846 26.5338 14.3485 22.885C17.6521 20.4196 18.4904 20.0252 19.2793 20.4196C19.7724 20.7155 20.2161 21.3565 20.2161 21.8989ZM25.6893 27.6679C23.4211 34.9161 23.0267 35.7543 22.1391 34.8668C21.7447 34.4723 22.1391 32.6479 23.6677 27.9637C26.2317 20.321 26.5275 19.6307 27.2671 20.3703C27.6123 20.7155 27.1685 22.7864 25.6893 27.6679ZM36.0932 23.2302C40.6788 26.2379 41.3198 27.0269 40.3337 28.1609C39.1503 29.5909 31.6555 35.2119 30.9159 35.2119C29.9298 35.2119 28.9436 33.8806 29.2394 33.0424C29.3874 32.6479 30.9652 31.218 32.7403 29.8867L35.9946 27.4706L32.5431 25.1532C30.6201 23.9205 29.0915 22.7371 29.0915 22.5892C29.0915 21.7509 30.2256 20.4196 30.9159 20.4196C31.3597 20.4196 33.6771 21.7016 36.0932 23.2302Z"
-                fill="white"
-              />
-              </svg>
-          </span>
-          <h1>RGIT</h1>
-        </div>
-        <div className="hidden lg:block">
-          <ul className="ml-12 inline-flex space-x-8">
-            {menuItems.map((item) => (
-              <li key={item.name}>
-                <a
-                  href={item.href}
-                  className="inline-flex items-center text-sm font-semibold rounded-lg transition-colors duration-300 hover:bg-gray-50 text-white hover:text-gray-900"
-                >
-                  {item.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex grow justify-end">
-          {/* Search Input */}
-        </div>
-        <div className="ml-2 mt-2 hidden lg:block">
-          {/* User Profile */}
-          <span className="relative inline-block">
-            <img  
-              className="h-10 w-10 rounded-full"
-              src={Profile}
-              alt="User Profile"
-            />
-            <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
-          </span>
-        </div>
-        <div className="ml-2 lg:hidden">
-          {/* Menu Icon for Mobile */}
-          <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
-        </div>
-        {isMenuOpen && (
-          <div className="absolute inset-x-0 top-0 z-50 origin-top-right transform p-2 transition lg:hidden">
-            <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-              <div className="px-5 pb-6 pt-5">
-                {/* Menu Content for Mobile */}
-                <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center space-x-2">
-                    <span>
-                      <svg
-                        width="30"
-                        height="30"
-                        viewBox="0 0 50 56"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        {/* SVG Path */}
-                      </svg>
-                    </span>
-                    <span className="font-bold">RGIT</span>
-                  </div>
-                  <div className="-mr-2">
-                    <button
-                      type="button"
-                      onClick={toggleMenu}
-                      className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                    >
-                      <span className="sr-only">Close menu</span>
-                      <X className="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
+    <Disclosure as="nav" className="bg-[#0099ff] sticky top-0 z-[999] ">
+      {({ open }) => (
+        <>
+          <div className="mx-auto px-2 sm:px-6 lg:px-16">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="absolute -inset-0.5" />
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <img
+                    className="h-8 w-auto"
+                    src={logo}
+                    // src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                  />
+                  <span className='font-bold text-white  tracking-wide ml-2 text-xl'>
+                    RGIT
+                  </span>
                 </div>
-                <div className="mt-6">
-                  <nav className="grid gap-y-4">
-                    {menuItems.map((item) => (
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="flex space-x-4">
+                    {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
-                        className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold hover:bg-gray-50"
+                        className={classNames(
+                          item.href === path ? 'underline font-bold' : ' hover:underline',
+                          'rounded-md px-3 py-2 text-sm text-white'
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
                       >
-                        <span className="ml-3 text-base font-medium text-gray-900">
-                          {item.name}
-                        </span>
-                        <span>
-                          <ChevronRight className="ml-3 h-4 w-4" />
-                        </span>
+                        {item.name}
                       </a>
                     ))}
-                  </nav>
+                  </div>
                 </div>
-                <div className="ml-3 mt-4 flex items-center space-x-2">
-                  <img
-                    className="inline-block h-10 w-10 rounded-full"
-                    src={Profile}
-                    alt="User Profile"
-                  />
-                  <span className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-900">Dan Abromov</span>
-                    <span className="text-sm font-medium text-gray-500">@dan_abromov</span>
-                  </span>
-                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                {/* <button
+                  type="button"
+                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                </button> */}
+
+                {/* Profile dropdown */}
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+                        // src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {/* <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="/profile"
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            Your Profile
+                          </a>
+                        )}
+                      </Menu.Item> */}
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                          onClick={() => {
+                            localStorage.clear()
+                            window.location.href = '/login'
+                          }}
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm cursor-pointer')}
+                          >
+                            Sign out
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+
+          <Disclosure.Panel className="sm:hidden">
+            <div className="space-y-1 px-2 pb-3 pt-2">
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block rounded-md px-3 py-2 text-base font-medium'
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
   )
 }
 
-export default Navbar
+export default NavBar
