@@ -4,7 +4,7 @@ import {
   logoutUser,
   refreshAccessToken,
   registerUser,
-//  createAcademicDetails,
+  verifyOtp,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -29,5 +29,5 @@ router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 //router.route("/academics").post(verifyJWT, createAcademicDetails);
 //experimental route
-
+router.route("/verify-otp").post(verifyOtp); //to be used for OTP verification of user's phone 
 export default router;

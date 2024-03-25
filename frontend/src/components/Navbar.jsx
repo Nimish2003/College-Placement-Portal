@@ -5,7 +5,7 @@ import Profile from "../images/profile.jpeg"
 const menuItems = [
   {
     name: 'Home',
-    href: '/',
+    href: '/home',
   },
   {
     name: 'Contact Us',
@@ -29,7 +29,7 @@ const menuItems = [
   },
 ]
 
-function ResponsiveAppBar() {
+function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   const toggleMenu = () => {
@@ -157,4 +157,4 @@ function ResponsiveAppBar() {
   )
 }
 
-export default ResponsiveAppBar
+export default Navbar

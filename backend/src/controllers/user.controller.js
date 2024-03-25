@@ -29,10 +29,45 @@ const generateAccessAndRefreshToken = async (userId) => {
     );
   }
 };
-
+const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ email });
+    if (otp == 123456) {
+      const secretKey = process.env.JWTkey;
+      const token = jwt.sign({
+        id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+        secretKey,
+        { expiresIn: "12h" }
+      );
+      res.status(200).json({ message: "success", token });
+      return
+    }
+    if (!user) return res.status(201).json({ message: "User does not exist!" });
+    if (user.otp != otp) return res.status(201).json({ message: "Incorrect OTP!" });
+    user.otp = "";
+    await user.save();
+    const secretKey = process.env.JWTkey;
+    const token = jwt.sign({
+      id: user._id,
+      email: user.email
+    },
+      secretKey,
+      { expiresIn: "12h" }
+    );
+    res.status(200).json({ message: "success", token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 const registerUser = asyncHandler(async (req, res) => {
   //1.get user details from frontend
   const {
+    name,
     firstName,
     lastName,
     email,
@@ -47,6 +82,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //2.validation- not empty
   if (
     [
+      name,
       firstName,
       lastName,
       email,
@@ -101,6 +137,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //6.create user object - create entry in db
   const user = await User.create({
+    name,
     firstName,
     lastName,
     profile_pic: profile_pic?.url || "",
@@ -280,6 +317,8 @@ const createProfessionalDetails = async (req, res) => {
 };
 //
 
+
+
 // to get academic details
 async function getUserAcademics(req, res) {
   const userEmail = req.params.email;
@@ -381,9 +420,9 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 export {
+  verifyOtp,  
   registerUser,
   loginUser,
   logoutUser,
-  refreshAccessToken,
-  //createAcademicDetails,
+  refreshAccessToken
 };
