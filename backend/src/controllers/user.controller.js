@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
-import {ApiError} from "../utils/ApiError.js";
+import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUploader.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -160,7 +160,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
   /* as refresh token and access token will be required to generated more
  frequently we will be generating them in separate method above*/
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
 
   // console.log(accessToken, refreshToken);
 
@@ -187,74 +189,68 @@ const loginUser = asyncHandler(async (req, res) => {
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
-        new ApiResponse(
-            200, 
-            {
-                user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged In Successfully"
-        )
-    )
-
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User logged In Successfully"
+      )
+    );
 });
 
 // Create academic details
 const createAcademicDetails = async (req, res) => {
-  try {
-    const {
-      userId,
-      sscMarks,
-      sscSchoolName,
-      sscYearOfPassing,
-      hscMarks,
-      hscCollegeName,
-      hscYearOfPassing,
-      diplomaMarks,
-      diplomaCollegeName,
-      diplomaYearOfPassing,
-      degreeCollegeName,
-      degreeBranch,
-      degreeYearOfStudy,
-      semesterGPAs,
-      backlog,
-    } = req.body;
+  const {
+    email,
+    sscMarks,
+    educationType,
+    board12thMarks,
+    diplomaMarks,
+    branch,
+    yearOfStudy,
+    semesters,
+    backlogs,
+  } = req.body;
 
-    // Get the authenticated user's ID from the request
-    userId = req.user._id;
-
-    // Create academic details
-    // Create academic details
-    const newAcademics = await Academics.create({
-      userId,
-      ssc: {
-        marks: sscMarks,
-        school_name: sscSchoolName,
-        year_of_passing: sscYearOfPassing,
-      },
-      hsc: {
-        marks: hscMarks,
-        college_name: hscCollegeName,
-        year_of_passing: hscYearOfPassing,
-      },
-      diploma: {
-        marks: diplomaMarks,
-        college_name: diplomaCollegeName,
-        year_of_passing: diplomaYearOfPassing,
-      },
-      degree: {
-        college_name: degreeCollegeName,
-        branch: degreeBranch,
-        year_of_study: degreeYearOfStudy,
-        semester_gpas: semesterGPAs,
-        backlog,
-      },
-    });
-
-    res.status(201).json({ message: "Academic details created successfully" });
-  } catch (error) {
-    console.error("Error creating academic details:", error);
-    res.status(500).json({ message: "Internal server error" });
+  // Check if any required field is empty
+  if (
+    !sscMarks ||
+    !educationType ||
+    !branch ||
+    !yearOfStudy ||
+    !semesters ||
+    !backlogs ||
+    !email
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
   }
+
+  // Get the authenticated user's ID from the request
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const userId = user._id;
+
+  // Create academic details
+  const newAcademics = await Academics.create({
+    userId,
+    sscMarks,
+    educationType,
+    board12thMarks,
+    diplomaMarks,
+    branch,
+    yearOfStudy,
+    semesters,
+    backlogs,
+  });
+
+  res.status(201).json({ message: "Academic details created successfully" });
 };
 
 // Create professional details
@@ -282,28 +278,6 @@ const createProfessionalDetails = async (req, res) => {
   }
 };
 //
-
-// to get academic details
-async function getUserAcademics(req, res) {
-  const userEmail = req.params.email;
-
-  try {
-    // Find the user document based on the email
-    const user = await Academics.findOne({ "userInfo.email": userEmail });
-
-    if (!user) {
-      // If user not found, return 404 status with a message
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    // Return academic details of the user
-    return res.json({ academics: user.userInfo.academic });
-  } catch (error) {
-    // If any error occurs, return 500 status with an error message
-    console.error("Error fetching user academics:", error);
-    return res.status(500).json({ error: "Error fetching user academics" });
-  }
-}
 
 const logoutUser = asyncHandler(async (req, res) => {
   // check auth middleware first from where user id flows to here

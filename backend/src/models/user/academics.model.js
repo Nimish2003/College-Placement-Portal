@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-
 const backlogSchema = new Schema({
   subject: {
     type: String,
@@ -14,80 +13,50 @@ const backlogSchema = new Schema({
 
 const academicsSchema = new Schema(
   {
-    ssc: {
-      marks: {
-        type: Number,
-        required: true,
-      },
-      school_name: {
-        type: String,
-        required: true,
-      },
-      year_of_passing: {
-        type: Number,
-        required: true,
-      },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User', // Reference to the User schema
+      required: true,
     },
-    hsc: {
-      marks: {
-        type: Number,
-        required: true,
-      },
-      college_name: {
-        type: String,
-        required: true,
-      },
-      year_of_passing: {
-        type: Number,
-        required: true,
-      },
+    sscMarks: {
+      type: Number,
+      required: true,
     },
-    diploma: {
-      marks: {
-        type: Number,
-      },
-      college_name: {
-        type: String,
-      },
-      year_of_passing: {
-        type: Number,
-      },
+    educationType: {
+      type: String,
+      required: true,
     },
-    degree: {
-      college_name: {
-        type: String,
-        required: true,
-      },
-      branch: {
-        type: String,
-        enum: ["CS", "IT", "AIDS", "MECH", "EXTC"],
-        required: true,
-      },
-      year_of_study: {
-        type: String,
-        enum: ["FE", "SE", "TE", "BE"],
-        required: true,
-      },
-      semester_gpas: [
-        {
-          semester: {
-            type: Number,
-            required: true,
-          },
-          gpa: {
-            type: Number,
-            required: true,
-          },
+    board12thMarks: {
+      type: Number,
+    },
+    diplomaMarks: {
+      type: Number,
+    },
+    branch: {
+      type: String,
+      required: true,
+    },
+    yearOfStudy: {
+      type: String,
+      required: true,
+    },
+    semesters: [
+      {
+        semester: {
+          type: Number,
+          required: true,
         },
-      ],
-      backlog: [backlogSchema],
-    },
+        gpa: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    backlogs: [backlogSchema],
   },
   { timestamps: true }
 );
 
-
-  
 // Function to compute overall GPA based on semester-wise GPA
 academicsSchema.methods.computeOverallGPA = function () {
   const { semester_gpas } = this.degree;

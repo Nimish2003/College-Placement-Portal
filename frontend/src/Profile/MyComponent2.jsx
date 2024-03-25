@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 
-function MyComponent2() {
-  const [branch, setBranch] = useState("");
-
-  const handleBranchChange = (e) => {
-    setBranch(e.target.value);
-  };
+function MyComponent2({ branch, handleBranchChange }) {
 
   return (
     <div className="col-span-2 grid">
@@ -19,6 +14,7 @@ function MyComponent2() {
         <select
           id="branch"
           className="flex h-10 mt-1 w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-black/30 focus:border-black/30"
+          name="branch"
           value={branch}
           onChange={handleBranchChange}
         >
