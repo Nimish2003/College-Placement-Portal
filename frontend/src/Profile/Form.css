@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif; /* Use the imported font family */
+}
+
+/* EditProfileForm.css */
+.gradient-background {
+    background: linear-gradient(135deg, #007bff, #ffffff); /* Adjust the colors as needed */
+    height: 100vh; /* Adjust the height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    width: 90%; /* Adjust the width as needed */
+    max-width: 600px; /* Adjust the maximum width as needed */
+  }
+  
+  .input-style {
+    width: 100%;
+    height: 40px; /* Adjust the height as needed */
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-top: 0.5rem; /* Adjust the margin as needed */
+  }
+  
+  /* Add more custom styles for other form elements if needed */
+  

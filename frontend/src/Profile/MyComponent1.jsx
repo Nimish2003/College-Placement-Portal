@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../Profile/Form.css";
 
 function MyComponent1() {
   const [yearOfStudy, setYearOfStudy] = useState("");
