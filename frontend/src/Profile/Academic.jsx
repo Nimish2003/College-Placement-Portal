@@ -3,6 +3,7 @@ import MyComponent from "./MyCompenent";
 import MyComponent1 from "./MyComponent1";
 import MyComponent2 from "./MyComponent2";
 import Sidebar from "./SideBar";
+import "../Profile/Form.css";
 
 export default function Academic() {
   const [educationType, setEducationType] = useState("");

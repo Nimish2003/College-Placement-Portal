@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../Profile/Form.css";
 
 function MyComponent2() {
   const [branch, setBranch] = useState("");
