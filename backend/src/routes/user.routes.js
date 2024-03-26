@@ -29,7 +29,7 @@ router.route("/login").post(login);
 //secured routes
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
-//router.route("/academics").post(verifyJWT, createAcademicDetails);
+router.route("/academic").post(createAcademicDetails);
 //experimental route
 router.route("/verify-otp").post(verifyOtp); //to be used for OTP verification of user's phone 
 export default router;

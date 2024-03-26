@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
-import ApiError from "../utils/ApiError.js";
+import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUploader.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -18,7 +18,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     const user = await User.findById(userId);
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
-   console.log(accessToken, refreshToken)
+    console.log(accessToken, refreshToken);
     user.refreshToken = refreshToken;
     // console.log(user.refreshToken)
     await user.save({ validateBeforeSave: false }); // To bypass validation on tokens generation
@@ -293,6 +293,31 @@ const login = async (req, res) => {
 // });
 
 // Create academic details
+const createAcademicDetails = async (req, res) => {
+  const {
+    email,
+    sscMarks,
+    educationType,
+    board12thMarks,
+    diplomaMarks,
+    branch,
+    yearOfStudy,
+    semesters,
+    backlogs,
+  } = req.body;
+
+  // Check if any required field is empty
+  if (
+    !sscMarks ||
+    !educationType ||
+    !branch ||
+    !yearOfStudy ||
+    !semesters ||
+    !backlogs ||
+    !email
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 // const createAcademicDetails = async (req, res) => {
 //   try {
 //     const {
@@ -313,9 +338,29 @@ const login = async (req, res) => {
 //       backlog,
 //     } = req.body;
 
+  // Get the authenticated user's ID from the request
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const userId = user._id;
 //     // Get the authenticated user's ID from the request
 //     userId = req.user._id;
 
+  // Create academic details
+  const newAcademics = await Academics.create({
+    userId,
+    sscMarks,
+    educationType,
+    board12thMarks,
+    diplomaMarks,
+    branch,
+    yearOfStudy,
+    semesters,
+    backlogs,
+  });
 //     // Create academic details
 //     // Create academic details
 //     const newAcademics = await Academics.create({
@@ -344,6 +389,8 @@ const login = async (req, res) => {
 //       },
 //     });
 
+  res.status(201).json({ message: "Academic details created successfully" });
+};
 //     res.status(201).json({ message: "Academic details created successfully" });
 //   } catch (error) {
 //     console.error("Error creating academic details:", error);
