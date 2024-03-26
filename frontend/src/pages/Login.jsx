@@ -225,7 +225,7 @@ function Login() {
                         <Components.LeftOverlayPanel signinIn={signIn}>
                             <Components.Title>Welcome Back!</Components.Title>
                             <Components.Paragraph>
-                            Streamline your travel planning with our trusty Travel Buddy.
+                            Find the right Job that  fits your skills and personality.
                             </Components.Paragraph>
                             <Components.GhostButton onClick={() => toggle(true)}>
                                 Sign In
@@ -233,9 +233,9 @@ function Login() {
                         </Components.LeftOverlayPanel>
 
                         <Components.RightOverlayPanel signinIn={signIn}>
-                            <Components.Title>Welcome to Travel Buddy!</Components.Title>
+                            <Components.Title>Welcome to Placement Portal!</Components.Title>
                             <Components.Paragraph>
-                                One Click, Infinite Information - You can Travel, Everywhere!
+                                One Click - Apply for the Role that needs you!
                             </Components.Paragraph>
                             <Components.GhostButton onClick={() => toggle(false)}>
                                 Sign Up
