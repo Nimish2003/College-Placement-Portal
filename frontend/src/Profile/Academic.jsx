@@ -3,6 +3,7 @@ import React, { useState } from "react";
 // import MyComponent1 from "./MyComponent1.jsx";
 // import MyComponent2 from "./MyComponent2.jsx";
 import Sidebar from "./SideBar";
+import "../Profile/Form.css";
 
 export default function Academic() {
   const semesters = ["sem1", "sem2", "sem3", "sem4", "sem5", "sem6", "sem7"];

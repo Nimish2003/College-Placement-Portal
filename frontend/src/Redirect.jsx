@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const Redirect = () => {
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
 
     useEffect(() => {
         if (token) {
@@ -9,7 +10,7 @@ const Redirect = () => {
         } else {
             window.location.href = '/login';
         }
-    }, []);
+    }, [token]); // Include token as dependency to ensure useEffect runs when token changes
 
     return (
         <div>

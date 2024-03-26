@@ -13,10 +13,25 @@ const backlogSchema = new Schema({
 
 const academicsSchema = new Schema(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User', // Reference to the User schema
+    email: {
+      type: String,
       required: true,
+      unique: true,
+      lowercase: true,
+    },
+    ssc: {
+      marks: {
+        type: Number,
+        required: true,
+      },
+      school_name: {
+        type: String,
+        required: true,
+      },
+      year_of_passing: {
+        type: Number,
+        required: true,
+      },
     },
     sscMarks: {
       type: Number,

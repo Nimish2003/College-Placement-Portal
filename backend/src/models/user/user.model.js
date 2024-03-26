@@ -4,16 +4,20 @@ import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+     required: true,
+    },
     firstName: {
       type: String,
-      required: true,
+      // required: true,
       lowercase: true,
       trim: true,
       index: true, //to make field searchable in optimized manner
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
       lowercase: true,
       trim: true,
       index: true, //to make field searchable in optimized manner
@@ -32,14 +36,14 @@ const userSchema = new mongoose.Schema(
       countryCode: Number,
       number: String,
     },
-    address: {
-      type: String,
-    },
-    dateOfBirth: String,
-    gender: {
-      type: String,
-      //enum: ["Male", "Female", "Other"],
-    },
+  
+    // dateOfBirth:{
+    //   type:  Date,
+    // } ,
+    // gender: {
+    //   type: String,
+    //   //enum: ["Male", "Female", "Other"],
+    // },
     profile_pic: {
       type: String, //cloudinary url
     },
@@ -52,6 +56,9 @@ const userSchema = new mongoose.Schema(
       ref: "Skillwork",
     },
     refreshToken: {
+      type: String,
+    },
+    otp: {
       type: String,
     },
   },

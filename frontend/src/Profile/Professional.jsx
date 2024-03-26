@@ -2,6 +2,7 @@ import React from "react";
 import Select from "../components/Select";
 import ProjectForm from "./ProjectForm";
 import Certificate from "./Certificate";
+import "../Profile/Form.css";
 
 export default function Professional() {
   return (

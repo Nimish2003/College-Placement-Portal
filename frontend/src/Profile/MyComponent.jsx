@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../Profile/Form.css";
 
 function MyComponent({ backlogs, handleBacklogChange }) {
   const semesters = [

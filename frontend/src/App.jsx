@@ -20,21 +20,45 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/Home.jsx";
 import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
-
+import Navbar from "./components/Navbar.jsx"
+import Cookies from 'js-cookie';
 const locomotiveScroll = new LocomotiveScroll();
+import { useCookies } from 'react-cookie';
 
 function App() {
   const token = localStorage.getItem('token');
-
+  
   const isNavBarOpen = useSelector(state => state.ui.isNavBarOpen)
 
   const router = createBrowserRouter([
     {
-      
+      path: '/',
+      element: (
+        <>
+          <ToastContainer
+                position="top-center"
+                autoClose={1500}
+                limit={2}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
+          {token && (<Navbar />)}
+          {!isNavBarOpen && (<>
+            <Outlet />
+            {token && (<Footer />)}
+          </>)}
+        </>
+      ),
       children: [
         {
           path: '/',
-          element: <Home />
+          element: <Redirect />
         },
         {
           path: '/contactus',
@@ -75,6 +99,14 @@ function App() {
         {
           path: '/recruitmentprocess',
           element: <RecruitmentProcess />
+        },
+        {
+          path: '/login',
+          element: <Login />
+        },
+        {
+          path: '/home',
+          element: <Home />
         }
         
       ]
@@ -82,14 +114,14 @@ function App() {
   ]);
 
   return (
-      <Layout>
-
+    
     <AnimatePresence >
+      console.log(token);
       <div className="h-full w-full bg-[#E6E6FA]">
         <RouterProvider router={router} />
       </div>
     </AnimatePresence>
-      </Layout>
+    
   )
 }
 

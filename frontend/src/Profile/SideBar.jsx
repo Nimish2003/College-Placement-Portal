@@ -1,5 +1,6 @@
 import Profile from "../images/profile.jpeg";
 import React from "react";
+import "../Profile/Form.css";
 import {
   BarChart,
   Wallet,
