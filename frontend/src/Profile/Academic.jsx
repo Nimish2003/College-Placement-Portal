@@ -19,26 +19,30 @@ export default function Academic() {
     sem8: ["Subject 8A", "Subject 8B", "Subject 8C"],
   };
 
-  const userEmail = localStorage.getItem('userEmail');
-
+  const userdetails = JSON.parse(localStorage.getItem("user"));
+  const email = userdetails.email;
+  // console.log(userdetails);
+  // console.log("email", email);
   const [academics, setAcademics] = useState({
-    email: userEmail,
+    email,
     sscMarks: "",
     educationType: "",
+    board12thMarks: "",
+    diplomaMarks: "",
     branch: "",
     yearOfStudy: "", // Add yearOfStudy field
     // Add fields for GPA and Percentage for each semester
     semesters: {
       "TE passed": {
-        "1stSemGPA": "",
-        "2ndSemGPA": "",
-        "3rdSemGPA": "",
-        "4thSemGPA": "",
-        "5thSemGPA": "",
-        "6thSemGPA": "",
+        firstSemGPA: "",
+        secondSemGPA: "",
+        thirdSemGPA: "",
+        fourthSemGPA: "",
+        fifthSemGPA: "",
+        sixthSemGPA: "",
       },
       BE: {
-        "7thSemGPA": "",
+        seventhSemGPA: "",
       },
     },
     backlogs: [
@@ -124,14 +128,12 @@ export default function Academic() {
     setAcademics({ ...academics, backlogs: updatedBacklogs });
   };
 
- 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(academics);
+    console.log("academics", academics);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/academic", {
+      const response = await fetch("http://localhost:5000/api/form/academics", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +141,11 @@ export default function Academic() {
         body: JSON.stringify(academics),
       });
 
-      console.log("Data stored Successfully", response);
+      if (!response) {
+        return res.status(402).json(err);
+      }
+
+      console.log("Data stored successfully", response);
     } catch (error) {
       console.log("Academic error", error);
     }
@@ -295,18 +301,23 @@ export default function Academic() {
                     <>
                       <div className="w-full mb-4">
                         <label
-                          htmlFor="1stSemGPA"
+                          htmlFor="firstSemGPA"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                           1st Semester GPA
                         </label>
                         <input
                           type="text"
-                          id="1stSemGPA"
-                          name="1stSemGPA"
-                          value={academics.semesters["TE passed"]["1stSemGPA"]}
+                          id="firstSemGPA"
+                          name="firstSemGPA"
+                          value={
+                            academics.semesters["TE passed"]["firstSemGPA"]
+                          }
                           onChange={(e) =>
-                            handleSemesterGPAChange("1stSemGPA", e.target.value)
+                            handleSemesterGPAChange(
+                              "firstSemGPA",
+                              e.target.value
+                            )
                           }
                           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter 1st Semester GPA"
@@ -358,18 +369,23 @@ export default function Academic() {
 
                       <div className="w-full mb-4">
                         <label
-                          htmlFor="3rdSemGPA"
+                          htmlFor="thirdSemGPA"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                           3rd Semester GPA
                         </label>
                         <input
                           type="text"
-                          id="3rdSemGPA"
-                          name="3rdSemGPA"
-                          value={academics.semesters["TE passed"]["3rdSemGPA"]}
+                          id="thirdSemGPA"
+                          name="thirdSemGPA"
+                          value={
+                            academics.semesters["TE passed"]["thirdSemGPA"]
+                          }
                           onChange={(e) =>
-                            handleSemesterGPAChange("3rdSemGPA", e.target.value)
+                            handleSemesterGPAChange(
+                              "thirdSemGPA",
+                              e.target.value
+                            )
                           }
                           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter 3rd Semester GPA"
@@ -389,18 +405,23 @@ export default function Academic() {
                       </div>
                       <div className="w-full mb-4">
                         <label
-                          htmlFor="4thSemGPA"
+                          htmlFor="fourthSemGPA"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                           4th Semester GPA
                         </label>
                         <input
                           type="text"
-                          id="4thSemGPA"
-                          name="4thSemGPA"
-                          value={academics.semesters["TE passed"]["4thSemGPA"]}
+                          id="fourthSemGPA"
+                          name="fourthSemGPA"
+                          value={
+                            academics.semesters["TE passed"]["fourthSemGPA"]
+                          }
                           onChange={(e) =>
-                            handleSemesterGPAChange("4thSemGPA", e.target.value)
+                            handleSemesterGPAChange(
+                              "fourthSemGPA",
+                              e.target.value
+                            )
                           }
                           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter 4th Semester GPA"
@@ -420,18 +441,23 @@ export default function Academic() {
                       </div>
                       <div className="w-full mb-4">
                         <label
-                          htmlFor="5thSemGPA"
+                          htmlFor="fifthSemGPA"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                           5th Semester GPA
                         </label>
                         <input
                           type="text"
-                          id="5thSemGPA"
-                          name="5thSemGPA"
-                          value={academics.semesters["TE passed"]["5thSemGPA"]}
+                          id="fifthSemGPA"
+                          name="fifthSemGPA"
+                          value={
+                            academics.semesters["TE passed"]["fifthSemGPA"]
+                          }
                           onChange={(e) =>
-                            handleSemesterGPAChange("5thSemGPA", e.target.value)
+                            handleSemesterGPAChange(
+                              "fifthSemGPA",
+                              e.target.value
+                            )
                           }
                           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter 5th Semester GPA"
@@ -451,18 +477,23 @@ export default function Academic() {
                       </div>
                       <div className="w-full mb-4">
                         <label
-                          htmlFor="4thSemGPA"
+                          htmlFor="fourthSemGPA"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                           6th Semester GPA
                         </label>
                         <input
                           type="text"
-                          id="6thSemGPA"
-                          name="6thSemGPA"
-                          value={academics.semesters["TE passed"]["6thSemGPA"]}
+                          id="sixthSemGPA"
+                          name="sixthSemGPA"
+                          value={
+                            academics.semesters["TE passed"]["sixthSemGPA"]
+                          }
                           onChange={(e) =>
-                            handleSemesterGPAChange("6thSemGPA", e.target.value)
+                            handleSemesterGPAChange(
+                              "sixthSemGPA",
+                              e.target.value
+                            )
                           }
                           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter 6th Semester GPA"
@@ -485,18 +516,21 @@ export default function Academic() {
                     <>
                       <div className="w-full mb-4">
                         <label
-                          htmlFor="7thSemGPA"
+                          htmlFor="seventhSemGPA"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                           7th Semester GPA
                         </label>
                         <input
                           type="text"
-                          id="7thSemGPA"
-                          name="7thSemGPA"
-                          value={academics.semesters["BE"]["7thSemGPA"]}
+                          id="seventhSemGPA"
+                          name="seventhSemGPA"
+                          value={academics.semesters["BE"]["seventhSemGPA"]}
                           onChange={(e) =>
-                            handleSemesterGPAChange("7thSemGPA", e.target.value)
+                            handleSemesterGPAChange(
+                              "seventhSemGPA",
+                              e.target.value
+                            )
                           }
                           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter 4th Semester GPA"

@@ -1,13 +1,14 @@
+// MongoDB model
 import mongoose, { Schema } from "mongoose";
 
 const backlogSchema = new Schema({
   subject: {
     type: String,
-    required: true,
+    required: false,
   },
   semester: {
-    type: Number,
-    required: true,
+    type: String,
+    required: false,
   },
 });
 
@@ -16,25 +17,9 @@ const academicsSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
-      lowercase: true,
-    },
-    ssc: {
-      marks: {
-        type: Number,
-        required: true,
-      },
-      school_name: {
-        type: String,
-        required: true,
-      },
-      year_of_passing: {
-        type: Number,
-        required: true,
-      },
     },
     sscMarks: {
-      type: Number,
+      type: String,
       required: true,
     },
     educationType: {
@@ -42,10 +27,10 @@ const academicsSchema = new Schema(
       required: true,
     },
     board12thMarks: {
-      type: Number,
+      type: String,
     },
     diplomaMarks: {
-      type: Number,
+      type: String,
     },
     branch: {
       type: String,
@@ -55,18 +40,46 @@ const academicsSchema = new Schema(
       type: String,
       required: true,
     },
-    semesters: [
-      {
-        semester: {
-          type: Number,
-          required: true,
+    semesters: {
+      BE: {
+        type: {
+          seventhSemGPA: {
+            type: String,
+            required: false,
+          },
         },
-        gpa: {
-          type: Number,
-          required: true,
-        },
+        required: false,
       },
-    ],
+      "TE passed": {
+        type: {
+          firstSemGPA: {
+            type: String,
+            required: false,
+          },
+          secondSemGPA: {
+            type: String,
+            required: false,
+          },
+          thirdSemGPA: {
+            type: String,
+            required: false,
+          },
+          fourthSemGPA: {
+            type: String,
+            required: false,
+          },
+          fifthSemGPA: {
+            type: String,
+            required: false,
+          },
+          sixthSemGPA: {
+            type: String,
+            required: false,
+          },
+        },
+        required: false,
+      },
+    },
     backlogs: [backlogSchema],
   },
   { timestamps: true }
@@ -74,22 +87,19 @@ const academicsSchema = new Schema(
 
 // Function to compute overall GPA based on semester-wise GPA
 academicsSchema.methods.computeOverallGPA = function () {
-  const { semester_gpas } = this.degree;
-  const totalCredits = semester_gpas.length;
+  const semesterGPAs = this.semesters[this.yearOfStudy];
+  const totalSemesters = Object.keys(semesterGPAs).length;
   let totalGPA = 0;
-  for (const sem of semester_gpas) {
-    totalGPA += sem.gpa;
+  for (const sem in semesterGPAs) {
+    totalGPA += parseFloat(semesterGPAs[sem]);
   }
-  return totalGPA / totalCredits;
+  return totalGPA / totalSemesters;
 };
 
 // Function to compute percentage based on overall GPA
 academicsSchema.methods.computePercentage = function () {
   const overallGPA = this.computeOverallGPA();
-  // You can define a formula to convert GPA to percentage
-  // For example, you can use a simple linear conversion
-  // Note: This formula may vary based on the grading system
-  return overallGPA * 10;
+  return overallGPA * 10; // Assuming GPA is out of 10
 };
 
 export const Academics = mongoose.model("Academics", academicsSchema);

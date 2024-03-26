@@ -23,7 +23,7 @@ import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
 import Navbar from "./components/Navbar.jsx"
 import Cookies from 'js-cookie';
 const locomotiveScroll = new LocomotiveScroll();
-import { useCookies } from 'react-cookie';
+
 
 function App() {
   const token = localStorage.getItem('token');

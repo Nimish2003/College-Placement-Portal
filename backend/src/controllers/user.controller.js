@@ -318,6 +318,7 @@ const createAcademicDetails = async (req, res) => {
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
+  
 // const createAcademicDetails = async (req, res) => {
 //   try {
 //     const {
@@ -346,8 +347,6 @@ const createAcademicDetails = async (req, res) => {
   }
 
   const userId = user._id;
-//     // Get the authenticated user's ID from the request
-//     userId = req.user._id;
 
   // Create academic details
   const newAcademics = await Academics.create({

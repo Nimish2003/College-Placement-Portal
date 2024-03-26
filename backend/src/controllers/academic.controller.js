@@ -1,28 +1,47 @@
 import { Academics } from "../models/user/academics.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+// import { uploadOnCloudinary } from "../utils/upload.js";
+import { asyncHandler } from "../utils/AsyncHandler.js";
+const academics = asyncHandler(async (req, res) => {
+    // 1. Get academic details from the frontend
+    const {
+        email,
+        sscMarks,
+        educationType,
+        board12thMarks,
+        diplomaMarks,
+        branch,
+        yearOfStudy,
+        semesters,
+        backlogs
+    } = req.body;
 
-const academics = async (req, res) => {
-    try {
-        // Extract user's email from the request or response
-        const userEmail = req.body.email || req.body.userEmail;
-
-        // Check if userEmail is provided
-        if (!userEmail) {
-            throw new Error("User's email not provided");
-        }
-
-        const academicData = req.body;
-
-        // Ensure that email is provided in academicData
-        academicData.email = userEmail;
-
-        // Create instance of Academics model
-        await Academics.create(academicData);
-        
-        res.status(201).json({ "message": "Data added successfully!" });
-    } catch (error) {
-        res.status(409).json({ "error": error.message });
+    // 2. Validation - Ensure all required fields are provided
+    if (!email || !sscMarks || !educationType || !branch || !yearOfStudy || !semesters || !backlogs) {
+        throw new ApiError(400, "All fields are required!!");
     }
-}
 
+    // 3. Create academic object - create entry in the database
+    const academicData = await Academics.create({
+        email,
+        sscMarks,
+        educationType,
+        board12thMarks,
+        diplomaMarks,
+        branch,
+        yearOfStudy,
+        semesters,
+        backlogs
+    });
 
-export {academics};
+    // 4. Check for academic data creation
+    if (!academicData) {
+        throw new ApiError("Something went wrong while registering academic data!!");
+    }
+
+    // 5. Return response
+    return res.status(201).json(new ApiResponse(200, academicData, "Academic data registered successfully"));
+});
+
+export { academics };
