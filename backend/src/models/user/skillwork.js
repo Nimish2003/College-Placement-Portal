@@ -1,7 +1,29 @@
 import mongoose from "mongoose";
 
+const projectSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    projectUrl: {
+      type: String,
+      required: true,
+    }, // Project URL
+  },
+  { timestamps: true }
+);
+
 const skillWorkSchema = new mongoose.Schema(
   {
+    email:{
+      type: String,
+      required: true,
+    },
     skills: [
       {
         type: String,
@@ -12,74 +34,18 @@ const skillWorkSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    previousExperience: {
-      type: String,
-      required: true,
-    },
-    partTimeJobs: {
-      type: String,
-      required: true,
-    },
-    technicalSkills: {
-      type: String,
-      required: true,
-    },
-    softSkills: {
-      type: String,
-      required: true,
-    },
-    projects: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Project",
-      },
-    ], // Reference to projects
+    SEproject: [projectSchema],
+    TEproject: [projectSchema],
     certifications: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Certificate",
+        title: String,
+        description: String,
       },
     ], // Reference to certificates
     resume: {
       type: String,
       required: true,
     }, // File path or URL to uploaded resume
-    areasOfInterest: {
-      type: String,
-      required: true,
-    },
-    preferredIndustry: {
-      type: String,
-      required: true,
-    },
-    jobRoles: {
-      type: String,
-      required: true,
-    },
-    preferredLocations: {
-      type: String,
-      required: true,
-    },
-    languagesSpoken: {
-      type: String,
-      required: true,
-    },
-    extracurricularActivities: {
-      type: String,
-      required: true,
-    },
-    achievementsAwards: {
-      type: String,
-      required: true,
-    },
-    professionalProfileLink: {
-      type: String,
-      required: true,
-    },
-    references: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
