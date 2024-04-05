@@ -157,12 +157,12 @@ export default function Academic() {
       <Sidebar />
 
       {/* Main Content */}
-      <div className="flex-1 mx-auto w-full max-w-7xl bg-slate-100 py-2">
+      <div className="flex-1 mx-auto w-full max-w-7xl bg-slate-100 py-2 bg-gradient-to-r from-violet-500 to-fuchsia-500">
         <div className="mx-auto my-4 max-w-2xl md:my-6">
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="overflow-hidden rounded-xl bg-white p-4 shadow"
+            className="overflow-hidden shadow bg-opacity-60 backdrop-filter backdrop-blur-lg backdrop-saturate-180 bg-gray-300 border border-opacity-10 border-gray-300 rounded-lg px-5 py-6"
           >
             <p className="text-sm font-bold text-gray-900">Academic Details</p>
             <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">

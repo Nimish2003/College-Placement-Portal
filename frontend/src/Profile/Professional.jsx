@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "../components/Select";
 import axios from "axios"; // Import axios for HTTP requests
 import "../Profile/Form.css";
+import bg from "../images/college.jpeg";
 
 export default function Professional() {
   const userdetails = JSON.parse(localStorage.getItem("user"));
@@ -77,9 +78,11 @@ export default function Professional() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl bg-slate-100 py-2">
+    <div
+      className="mx-auto w-full max-w-full py-4 px-5 bg-gradient-to-r from-violet-500 to-fuchsia-500"
+    >
       <div className="mx-auto my-4 max-w-2xl md:my-6">
-        <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
+        <div className="overflow-hidden bg-opacity-40 backdrop-filter backdrop-blur-lg backdrop-saturate-180 bg-gray-300 border border-opacity-10 border-gray-300 rounded-lg p-4 shadow px-9 py-3">
           <p className="text-sm font-bold text-gray-900">
             Professional Experience
           </p>
