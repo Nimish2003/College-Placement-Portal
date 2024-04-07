@@ -22,7 +22,7 @@ import Home from "./pages/Home.jsx";
 import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
 import Navbar from "./components/Navbar.jsx"
 import Cookies from 'js-cookie';
-const locomotiveScroll = new LocomotiveScroll();
+
 
 
 function App() {

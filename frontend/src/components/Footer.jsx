@@ -8,7 +8,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 function Footer() {
 
   return (
-    <footer className="bottom-0 left-0 w-full text-white py-8 flex justify-center bg-[#0099ff]">
+    <footer className="bottom-0 left-0 w-full text-white py-8 flex justify-center bg-slate-800 mt-2">
       <div className='container mx-auto w-full flex flex-col items-center justify-center gap-4'>
         <div className='w-full flex-1 flex flex-col md:flex-row items-center md:items-start justify-around gap-4 md:gap-2'>
           <div className='flex flex-col items-center justify-center gap-2'>
@@ -18,7 +18,7 @@ function Footer() {
             <div className='flex flex-col items-center gap-1'>
               <div className='flex items-center gap-4'>
                 <a
-                href='https://www.instagram.com/o.c.u.l.u.s_s.p.i.t/'  
+                href='https://www.mctrgit.ac.in/'  
                 target='_blank'
                 className='flex items-center gap-1 font-semibold opacity-70 hover:opacity-100 cursor-pointer'>
                   <InstagramIcon sx={{
@@ -26,7 +26,7 @@ function Footer() {
                   }} /> Instagram
                 </a>
                 <a
-                href='https://www.linkedin.com/company/oculusseesall/'  
+                href='https://in.linkedin.com/school/mctrgitofficial/'  
                 target='_blank' 
                 className='flex items-center gap-1 font-semibold opacity-70 hover:opacity-100 cursor-pointer'>
                   <LinkedInIcon sx={{
@@ -36,7 +36,7 @@ function Footer() {
               </div>
               <div className='flex items-center gap-4'>
               <a
-                href='https://twitter.com/oculusseesall?s=11&t=31V3U_6dN4dxqr_7A3vyaA'  
+                href='https://in.linkedin.com/school/mctrgitofficial/'  
                 target='_blank' 
                 className='flex items-center gap-1 font-semibold opacity-70 hover:opacity-100 cursor-pointer' >
                   <XIcon sx={{
@@ -44,7 +44,7 @@ function Footer() {
                   }} /> X (Twitter)
                 </a>
                 <a
-                href='https://www.youtube.com/@oculuss.p.i.t209'  
+                href='https://www.youtube.com/channel/UCGeVJ271DLv5Pi8-XIpGf4w'  
                 target='_blank' 
                 className='flex items-center gap-1 font-semibold opacity-70 hover:opacity-100 cursor-pointer'>
                   <YouTubeIcon sx={{
@@ -72,12 +72,12 @@ function Footer() {
             </div>
             <div className='flex flex-col items-center justify-center'>
               <a 
-              href='https://oculus.spit.ac.in/privacy-policy'
+              href=''
               target='_blank'
               className='cursor-pointer opacity-75 hover:opacity-100 hover:text-slate font-semibold'
               >Privacy Policy</a>
               <a 
-              href='https://oculus.spit.ac.in/terms-and-conditions'
+              href=''
               target='_blank'
               className='cursor-pointer opacity-75 hover:opacity-100 hover:text-slate font-semibold'
               >Terms and Conditions</a>
