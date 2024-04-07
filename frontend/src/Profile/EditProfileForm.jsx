@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CoverPhoto from "../images/rgit.jpg";
 
 export default function EditProfileForm() {
   const [register, setRegister] = useState({
@@ -39,67 +40,67 @@ export default function EditProfileForm() {
   };
 
   return (
-        <form
-      onSubmit={handleSubmit}
-      className="ml-auto mr-auto mt-10 my-4 w-[calc(100%-64rem)]"
-    >
-          <div className="overflow-hidden rounded-xl bg-white p-4 shadow">
-            <p className="text-sm font-bold text-gray-900">Personal Info</p>
-            <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">
-              <div className="w-full">
-                <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor="firstName"
-                >
-                  First Name
-                </label>
-                <input
-                  className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                  type="text"
-                  placeholder="Enter your first name"
-                  id="firstName"
+    <div className="ml-auto mr-auto mt-10 my-4 w-[calc(100%-64rem)] bg-gradient-to-r from-violet-500 to-fuchsia-500">
+      <form
+        onSubmit={handleSubmit}
+        className="overflow-hidden rounded-xl bg-white p-4 shadow"
+      >
+        <p className="text-sm font-bold text-gray-900">Personal Info</p>
+        <div className="mt-6 gap-6 space-y-4 md:grid md:grid-cols-2 md:space-y-0">
+          <div className="w-full">
+            <label
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              htmlFor="firstName"
+            >
+              First Name
+            </label>
+            <input
+              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              type="text"
+              placeholder="Enter your first name"
+              id="firstName"
               name="firstName"
               value={register.firstName}
               onChange={handleInput}
-                ></input>
-              </div>
+            ></input>
+          </div>
 
-              <div className="w-full">
-                <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor="lastName"
-                >
-                  Last Name
-                </label>
-                <input
-                  className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                  type="text"
-                  placeholder="Enter your last name"
-                  id="lastName"
+          <div className="w-full">
+            <label
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              htmlFor="lastName"
+            >
+              Last Name
+            </label>
+            <input
+              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              type="text"
+              placeholder="Enter your last name"
+              id="lastName"
               name="lastName"
               value={register.lastName}
               onChange={handleInput}
-                ></input>
-              </div>
-              <div className="col-span-2 grid">
-                <div className="w-full">
-                  <label
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    htmlFor="email"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="email"
-                    placeholder="Enter your email"
-                    id="email"
+            ></input>
+          </div>
+          <div className="col-span-2 grid">
+            <div className="w-full">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="email"
+              >
+                Email Address
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                type="email"
+                placeholder="Enter your email"
+                id="email"
                 name="email"
                 value={register.email}
                 onChange={handleInput}
-                  ></input>
-                </div>
-              </div>
+              ></input>
+            </div>
+          </div>
 
           <div className="col-span-2 grid">
             <div className="w-full">
@@ -170,7 +171,7 @@ export default function EditProfileForm() {
             </button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
