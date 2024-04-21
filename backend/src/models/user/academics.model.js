@@ -36,49 +36,19 @@ const academicsSchema = new Schema(
       type: String,
       required: true,
     },
-    yearOfStudy: {
-      type: String,
-      required: true,
-    },
     semesters: {
-      BE: {
-        type: {
-          seventhSemGPA: {
-            type: String,
-            required: false,
-          },
+      type: Map,
+      of: {
+        GPA: {
+          type: String,
+          required: false,
         },
-        required: false,
-      },
-      "TE passed": {
-        type: {
-          firstSemGPA: {
-            type: String,
-            required: false,
-          },
-          secondSemGPA: {
-            type: String,
-            required: false,
-          },
-          thirdSemGPA: {
-            type: String,
-            required: false,
-          },
-          fourthSemGPA: {
-            type: String,
-            required: false,
-          },
-          fifthSemGPA: {
-            type: String,
-            required: false,
-          },
-          sixthSemGPA: {
-            type: String,
-            required: false,
-          },
+        percentage: {
+          type: String,
+          required: false,
         },
-        required: false,
       },
+      required: false,
     },
     backlogs: [backlogSchema],
   },

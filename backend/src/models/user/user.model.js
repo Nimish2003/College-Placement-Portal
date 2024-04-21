@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-     required: true,
+      required: true,
     },
     firstName: {
       type: String,
@@ -33,13 +33,21 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
     },
     contactNumber: {
-      countryCode: Number,
-      number: String,
+      type: String,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return /^\d{10}$/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid 10-digit number!`,
+      },
     },
-  
-    // dateOfBirth:{
-    //   type:  Date,
-    // } ,
+    dob:{
+      type:  Date,
+    } ,
+    address: {
+      type:String,
+    },
     // gender: {
     //   type: String,
     //   //enum: ["Male", "Female", "Other"],
@@ -93,7 +101,7 @@ userSchema.methods.generateAccessToken = async function () {
       }
     );
   } catch (error) {
-    console.error('Error generating access token:', error);
+    console.error("Error generating access token:", error);
     throw error;
   }
 };
@@ -110,10 +118,9 @@ userSchema.methods.generateRefreshToken = async function () {
       }
     );
   } catch (error) {
-    console.error('Error generating refresh token:', error);
+    console.error("Error generating refresh token:", error);
     throw error;
   }
 };
-
 
 export const User = mongoose.model("User", userSchema);

@@ -4,9 +4,11 @@ import React, { useState } from "react";
 // import MyComponent2 from "./MyComponent2.jsx";
 import Sidebar from "./SideBar";
 import "../Profile/Form.css";
+import { toast } from "react-toastify"
+import Api from "../api";
 
 export default function Academic() {
-  const semesters = ["sem1", "sem2", "sem3", "sem4", "sem5", "sem6", "sem7"];
+  const semesters = ["sem1", "sem2", "sem3", "sem4", "sem5"];
 
   const subjectstoSemester = {
     sem1: ["Subject 1A", "Subject 1B", "Subject 1C"],
@@ -30,20 +32,12 @@ export default function Academic() {
     board12thMarks: "",
     diplomaMarks: "",
     branch: "",
-    yearOfStudy: "", // Add yearOfStudy field
-    // Add fields for GPA and Percentage for each semester
     semesters: {
-      "TE passed": {
-        firstSemGPA: "",
-        secondSemGPA: "",
-        thirdSemGPA: "",
-        fourthSemGPA: "",
-        fifthSemGPA: "",
-        sixthSemGPA: "",
-      },
-      BE: {
-        seventhSemGPA: "",
-      },
+      sem1: { GPA: "", percentage: "" },
+      sem2: { GPA: "", percentage: "" },
+      sem3: { GPA: "", percentage: "" },
+      sem4: { GPA: "", percentage: "" },
+      sem5: { GPA: "", percentage: "" },
     },
     backlogs: [
       {
@@ -75,14 +69,6 @@ export default function Academic() {
     });
   };
 
-  const handleYearOfStudyChange = (e) => {
-    const value = e.target.value;
-    setAcademics({
-      ...academics,
-      yearOfStudy: value,
-    });
-  };
-
   const [backlogInput, setBacklogInput] = useState({
     semester: "",
     subject: "",
@@ -100,7 +86,7 @@ export default function Academic() {
     if (backlogInput.semester && backlogInput.subject) {
       setAcademics((prevAcademics) => ({
         ...prevAcademics,
-        backlogs: [...prevAcademics.backlogs, backlogInput],
+        backlogs: [...prevAcademics.backlogs, backlogInput], // Append new backlog to existing array
       }));
       setBacklogInput({
         semester: "",
@@ -108,49 +94,137 @@ export default function Academic() {
       });
     }
   };
+  
 
   const handleSemesterGPAChange = (semester, value) => {
     setAcademics((prevState) => ({
       ...prevState,
       semesters: {
-        ...prevState.semesters, // Corrected from prevState.semesterList
-        [academics.yearOfStudy]: {
-          ...prevState.semesters[academics.yearOfStudy], // Corrected from prevState.semesterList
-          [semester]: value,
+        ...prevState.semesters,
+        [semester]: {
+          ...prevState.semesters[semester], // Ensure semester exists before accessing GPA property
+          GPA: value,
+          percentage: calculatePercentage(value),
         },
       },
     }));
   };
 
-  const handleBacklogChange = (index, value) => {
-    const updatedBacklogs = [...academics.backlogs];
-    updatedBacklogs[index] = value;
-    setAcademics({ ...academics, backlogs: updatedBacklogs });
+  const calculatePercentage = (GPA) => {
+    const minGPA = 1;
+    const maxGPA = 10;
+
+    if (GPA >= minGPA && GPA <= maxGPA) {
+      const percentage = ((GPA - minGPA) / (maxGPA - minGPA)) * 100;
+      return percentage.toFixed(2);
+    } else {
+      return "";
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("academics", academics);
-
-    try {
-      const response = await fetch("http://localhost:5000/api/form/academics", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(academics),
-      });
-
-      if (!response) {
-        return res.status(402).json(err);
-      }
-
-      console.log("Data stored successfully", response);
-    } catch (error) {
-      console.log("Academic error", error);
+  
+    // if (
+    //   !academics.sscMarks &&
+    //   !academics.educationType &&
+    //   (!academics.board12thMarks || !academics.diplomaMarks) &&
+    //   !academics.branch &&
+    //   !academics.board12thMarks &&
+    //   !academics.diplomaMarks &&
+    //   !academics.semesters
+    // ) {
+    //   toast.error("All fields are required!");
+    //   return;
+    // }
+  
+    // If all fields are empty, it's likely a new user registration
+    if (
+      Object.keys(academics).every(
+        (key) => !academics[key] && key !== "semesters" && key !== "backlogs"
+      ) &&
+      Object.keys(academics.semesters).every(
+        (semester) =>
+          !academics.semesters[semester].GPA &&
+          !academics.semesters[semester].percentage
+      ) &&
+      academics.backlogs.length === 1 &&
+      academics.backlogs[0].semester === "" &&
+      academics.backlogs[0].subject === ""
+    ) {
+      // Handle new user registration
+      await Api.createAcademic(academics)
+        .then((res) => {
+          console.log(res);
+          toast.success(res.response.data.message);
+          setAcademics({
+            email,
+            sscMarks: "",
+            educationType: "",
+            board12thMarks: "",
+            diplomaMarks: "",
+            branch: "",
+            semesters: {
+              sem1: { GPA: "", percentage: "" },
+              sem2: { GPA: "", percentage: "" },
+              sem3: { GPA: "", percentage: "" },
+              sem4: { GPA: "", percentage: "" },
+              sem5: { GPA: "", percentage: "" },
+            },
+            backlogs: [
+              {
+                semester: "",
+                subject: "",
+              },
+            ],
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.response.data.message);
+        });
+      return;
     }
+  
+    // Create an object to store only the fields that have been modified
+    const updatedAcademic = {
+      ...academics,
+    };
+  
+    await Api.createAcademic(updatedAcademic)
+      .then((res) => {
+        console.log(res);
+        // Reset the form fields after successful submission
+        setAcademics({
+          email,
+          sscMarks: "",
+          educationType: "",
+          board12thMarks: "",
+          diplomaMarks: "",
+          branch: "",
+          semesters: {
+            sem1: { GPA: "", percentage: "" },
+            sem2: { GPA: "", percentage: "" },
+            sem3: { GPA: "", percentage: "" },
+            sem4: { GPA: "", percentage: "" },
+            sem5: { GPA: "", percentage: "" },
+          },
+          backlogs: [
+            {
+              semester: "",
+              subject: "",
+            },
+          ],
+        });
+        toast.success("Academics updated successfully.");
+      })
+      .catch((err) => {
+        console.log("Error updating academics:", err);
+        toast.error("Failed to update academic. Please try again.");
+      });
   };
-
+  
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -273,285 +347,54 @@ export default function Academic() {
                 {/* Add other input fields */}
               </div>
 
-              {/* Year or semester wise GPA */}
+              {/* semester wise GPA */}
               <div className="col-span-2 grid">
-                <div className="w-full mb-4">
-                  <label
-                    htmlFor="year"
-                    className="block text-sm font-medium leading-none"
+                {semesters.map((semester) => (
+                  <div
+                    key={semester}
+                    className="w-full mb-4 grid grid-cols-2 gap-x-4"
                   >
-                    Year of Study
-                  </label>
-                  <select
-                    id="year"
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-black/30 focus:border-black/30"
-                    value={academics.yearOfStudy}
-                    onChange={handleYearOfStudyChange}
-                  >
-                    <option value="">Select Year of Study</option>
-                    <option value="TE passed">TE passed</option>
-                    <option value="BE">BE</option>
-                  </select>
-                </div>
+                    <div>
+                      <label
+                        htmlFor={`semGPA_${semester}`}
+                        className="text-sm font-medium leading-none"
+                      >
+                        {semester.toUpperCase()} GPA
+                      </label>
+                      <input
+                        type="text"
+                        id={`semGPA_${semester}`}
+                        name={`semGPA_${semester}`}
+                        value={academics.semesters[semester]?.GPA || ""}
+                        onChange={(e) =>
+                          handleSemesterGPAChange(semester, e.target.value)
+                        }
+                        className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder={`Enter ${semester.toUpperCase()} GPA`}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor={`semPercentage_${semester}`}
+                        className="text-sm font-medium leading-none"
+                      >
+                        Percentage
+                      </label>
+                      <input
+                        type="text"
+                        id={`semPercentage_${semester}`}
+                        name={`semPercentage_${semester}`}
+                        value={calculatePercentage(
+                          academics.semesters[semester]?.GPA
+                        )}
+                        readOnly
+                        className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder={`${semester.toUpperCase()} Percentage`}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              {academics.yearOfStudy && (
-                <div className="col-span-2 grid">
-                  {academics.yearOfStudy === "TE passed" ? (
-                    <>
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="firstSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          1st Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="firstSemGPA"
-                          name="firstSemGPA"
-                          value={
-                            academics.semesters["TE passed"]["firstSemGPA"]
-                          }
-                          onChange={(e) =>
-                            handleSemesterGPAChange(
-                              "firstSemGPA",
-                              e.target.value
-                            )
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 1st Semester GPA"
-                        />
-                        <label
-                          htmlFor="1stSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="1stSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="2ndSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          2nd Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="2ndSemGPA"
-                          name="2ndSemGPA"
-                          value={academics.semesters["TE passed"]["2ndSemGPA"]}
-                          onChange={(e) =>
-                            handleSemesterGPAChange("2ndSemGPA", e.target.value)
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 2nd Semester GPA"
-                        />
-                        <label
-                          htmlFor="2ndSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="2ndSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="thirdSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          3rd Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="thirdSemGPA"
-                          name="thirdSemGPA"
-                          value={
-                            academics.semesters["TE passed"]["thirdSemGPA"]
-                          }
-                          onChange={(e) =>
-                            handleSemesterGPAChange(
-                              "thirdSemGPA",
-                              e.target.value
-                            )
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 3rd Semester GPA"
-                        />
-                        <label
-                          htmlFor="3rdSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="3rdSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="fourthSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          4th Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="fourthSemGPA"
-                          name="fourthSemGPA"
-                          value={
-                            academics.semesters["TE passed"]["fourthSemGPA"]
-                          }
-                          onChange={(e) =>
-                            handleSemesterGPAChange(
-                              "fourthSemGPA",
-                              e.target.value
-                            )
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 4th Semester GPA"
-                        />
-                        <label
-                          htmlFor="4thSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="4thSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="fifthSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          5th Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="fifthSemGPA"
-                          name="fifthSemGPA"
-                          value={
-                            academics.semesters["TE passed"]["fifthSemGPA"]
-                          }
-                          onChange={(e) =>
-                            handleSemesterGPAChange(
-                              "fifthSemGPA",
-                              e.target.value
-                            )
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 5th Semester GPA"
-                        />
-                        <label
-                          htmlFor="5thSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="5thSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="fourthSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          6th Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="sixthSemGPA"
-                          name="sixthSemGPA"
-                          value={
-                            academics.semesters["TE passed"]["sixthSemGPA"]
-                          }
-                          onChange={(e) =>
-                            handleSemesterGPAChange(
-                              "sixthSemGPA",
-                              e.target.value
-                            )
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 6th Semester GPA"
-                        />
-                        <label
-                          htmlFor="6thSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="6thSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-full mb-4">
-                        <label
-                          htmlFor="seventhSemGPA"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          7th Semester GPA
-                        </label>
-                        <input
-                          type="text"
-                          id="seventhSemGPA"
-                          name="seventhSemGPA"
-                          value={academics.semesters["BE"]["seventhSemGPA"]}
-                          onChange={(e) =>
-                            handleSemesterGPAChange(
-                              "seventhSemGPA",
-                              e.target.value
-                            )
-                          }
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter 4th Semester GPA"
-                        />
-                        <label
-                          htmlFor="4thSemPercentage"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Percentage
-                        </label>
-                        <input
-                          type="text"
-                          id="7thSemPercentage"
-                          className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter Percentage"
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
 
               {/* Backlog section */}
               <div className="col-span-2 grid">
