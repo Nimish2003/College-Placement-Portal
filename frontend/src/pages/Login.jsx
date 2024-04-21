@@ -34,16 +34,16 @@ function Login() {
     const handleSignup = async (e) => {
         e.preventDefault();
         console.log(signupInfo)
-        if (!signupInfo.name || !signupInfo.email || !signupInfo.password || !signupInfo.contactNumber) {
+        if (!signupInfo.name || !signupInfo.email || !signupInfo.password || !signupInfo.contactNumber||!confirmPassword) {
             toast.error('Please fill all the fields');
             toggle(false);
             return;
         }
-        if (signupInfo.password !== confirmPassword) {
-            toast.error('Passwords do not match');
-            toggle(false);
-            return;
-        }
+        // if (signupInfo.password !== confirmPassword) {
+        //     toast.error('Passwords do not match');
+        //     toggle(false);
+        //     return;
+        // }
         await Api.registerUser(signupInfo)
             .then((res) => {
                 console.log(res)

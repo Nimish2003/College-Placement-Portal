@@ -59,6 +59,15 @@ class Api {
         return await api.post('api/auth/verify-otp', data);
     }
 
+    static async editProfile(data) {
+        return await api.patch('api/auth/profile', data);
+    }
+ 
+    static async createAcademic(data) {
+        return await api.patch('api/auth/academic', data);
+    }
+    
+
 }
 
 

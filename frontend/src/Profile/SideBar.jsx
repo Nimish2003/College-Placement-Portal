@@ -18,6 +18,9 @@ import {
   LogOut,
 } from "lucide-react";
 
+// const userdetails = JSON.parse(localStorage.getItem("user"));
+// const name = userdetails.name
+
 export default function Sidebar() {
   return (
     <aside className="w-64 flex flex-col border-r bg-[#0099ff] px-5 py-8">
@@ -25,7 +28,7 @@ export default function Sidebar() {
         <nav className="-mx-3 space-y-6 ">
           <div className="space-y-3 ">
             <label className="px-3 text-xs font-semibold uppercase text-white">
-              Hi, Lakshit Sahani
+              Hi, Prathamesh
             </label>
 
             {/* Displaying the photo */}
