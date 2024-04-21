@@ -22,6 +22,7 @@ import Home from "./pages/Home.jsx";
 import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
 import Navbar from "./components/Navbar.jsx"
 import Cookies from 'js-cookie';
+import Admin from "./Admin/Admin.jsx";
 
 
 
@@ -107,6 +108,10 @@ function App() {
         {
           path: '/home',
           element: <Home />
+        },
+        {
+          path: '/admin',
+          element: <Admin />
         }
         
       ]
