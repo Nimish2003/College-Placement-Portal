@@ -23,6 +23,7 @@ import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
 import Navbar from "./components/Navbar.jsx"
 import Cookies from 'js-cookie';
 import Admin from "./Admin/Admin.jsx";
+import UserDetailsPage from "./Profile/UserDetailsPage.jsx";
 
 
 
@@ -112,7 +113,12 @@ function App() {
         {
           path: '/admin',
           element: <Admin />
-        }
+        },
+
+      {
+        path:'/userdetails',
+        element:<UserDetailsPage />
+      }
         
       ]
     }
