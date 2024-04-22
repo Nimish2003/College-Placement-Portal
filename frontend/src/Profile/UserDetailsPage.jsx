@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Sidebar from './SideBar';
 
 const UserDetailsPage = () => {
   const [user, setUser] = useState({});
@@ -35,7 +36,9 @@ const UserDetailsPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-lg">
+    <>
+    <Sidebar />
+    <div className="max-w-md absolute top-[150px] left-[700px] mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">User Details</h1>
       {editing ? (
         <div>
@@ -59,6 +62,7 @@ const UserDetailsPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
