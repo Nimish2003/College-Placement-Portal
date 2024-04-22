@@ -67,7 +67,14 @@ class Api {
         return await api.patch('api/auth/academic', data);
     }
     
-
+    static async createProfessional(data) {
+        try {
+            const response = await api.patch('api/auth/professional', data);
+            return response.data; // Return the response data
+        } catch (error) {
+            throw error; // Throw any error that occurs
+        }
+    }
 }
 
 

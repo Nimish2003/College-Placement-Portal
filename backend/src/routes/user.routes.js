@@ -8,15 +8,14 @@ import {
   editProfile,
   verifyOtp,
   updateAcademicDetails,
+  editProfessionalDetails,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.route("/register").post(
-  registerUser
-);
+router.route("/register").post(registerUser);
 
 //router.route("/login").post(loginUser);
 router.route("/login").post(login);
@@ -29,7 +28,7 @@ router.route("/refresh-token").post(refreshAccessToken);
 //Profile creation routes
 router.route("/profile").patch(editProfile);
 router.route("/academic").patch(updateAcademicDetails);
-
+router.route("/professional").patch(editProfessionalDetails);
 //experimental route
-router.route("/verify-otp").post(verifyOtp); //to be used for OTP verification of user's phone 
+router.route("/verify-otp").post(verifyOtp); //to be used for OTP verification of user's phone
 export default router;

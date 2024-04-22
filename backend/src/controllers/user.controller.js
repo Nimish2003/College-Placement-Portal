@@ -7,9 +7,9 @@ import jwt from "jsonwebtoken";
 import { Academics } from "../models/user/academics.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { spawn } from "child_process";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import { Professional } from "../models/user/professional.model.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -264,70 +264,6 @@ const login = async (req, res) => {
   }
 };
 
- 
-//   //3.check if user exists or not by checking email
-//   //4.validate password
-//   //5.access and refresh token
-//   //6.send cookie
-
-//   const { email, password } = req.body;
-//   console.log("User Details for login:", email);
-
-//   if (!email) {
-//     throw new ApiError(400, "Email is required!");
-//   }
-
-//   const user = await User.findOne({ email });
-
-//   // console.log("User", user);
-
-//   if (!user) {
-//     throw new ApiError(404, "User does not exist");
-//   }
-
-//   const isPasswordValid = await user.isPasswordCorrect(password);
-
-//   if (!isPasswordValid) {
-//     throw new ApiError(401, "Invalid user credentails");
-//   }
-
-//   /* as refresh token and access token will be required to generated more
-//  frequently we will be generating them in separate method above*/
-//   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-//     user._id
-//   );
-
-//   // console.log(accessToken, refreshToken);
-
-//   const loggedInUser = await User.findById(user._id).select(
-//     "-password -refreshToken"
-//   );
-
-//   //this are security setting which make refreshToken only modified only from server side
-//   const options = {
-//     httpOnly: true,
-//     secure: true,
-//   };
-
-//   res.cookie("accessToken", accessToken, options);
-//   res.cookie("refreshToken", refreshToken, options);
-
-//   // Tokens are present here but not being set in table
-//   console.log("tokens:", res.getHeaders());
-//   return res.status(200).json(
-//     new ApiResponse(
-//       200,
-//       {
-//         user: loggedInUser,
-//         accessToken,
-//         refreshToken,
-//         email: loggedInUser.email,
-//       },
-//       "User logged in successfully"
-//     )
-//   );
-// });
-
 // Create academic details
 const updateAcademicDetails = async (req, res) => {
   const {
@@ -360,7 +296,6 @@ const updateAcademicDetails = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-
   // Check if academic details already exist for the user
   let academics = await Academics.findOne({ email });
 
@@ -376,7 +311,9 @@ const updateAcademicDetails = async (req, res) => {
       semesters,
       backlogs,
     });
-    return res.status(201).json({ message: "Academic details created successfully" });
+    return res
+      .status(201)
+      .json({ message: "Academic details created successfully" });
   }
 
   // If academic details exist, update the existing details
@@ -394,50 +331,58 @@ const updateAcademicDetails = async (req, res) => {
 };
 
 
+//Professional details
+const editProfessionalDetails = asyncHandler(async (req, res) => {
+  const { email, internship, projects, course } = req.body;
 
-// Create professional details
-const createProfessionalDetails = async (req, res) => {
-  try {
-    const { skills, internships, ...otherProfessionalDetails } = req.body;
+  let existingProfessional = await Professional.findOne({ email });
 
-    // Get the authenticated user's ID from the request
-    const userId = req.user.id;
-
-    // Create professional details
-    const newSkillwork = await Skillwork.create({
-      userId,
-      skills,
-      internships,
-      ...otherProfessionalDetails,
-    });
-
-    res
-      .status(201)
-      .json({ message: "Professional details created successfully" });
-  } catch (error) {
-    console.error("Error creating professional details:", error);
-    res.status(500).json({ message: "Internal server error" });
+  if (!existingProfessional) {
+    existingProfessional = new Professional({ email });
   }
-};
-//
 
-// to get academic details
+  if (internship) existingProfessional.internship = internship;
+  if (course) existingProfessional.course = course;
+
+  if (projects && projects.length > 0) {
+    for (let i = 0; i < projects.length; i++) {
+      const project = projects[i];
+      if (!project.title || !project.description || !project.projectUrl) {
+        return res.status(400).json({ message: `Project ${i + 1} details are incomplete` });
+      }
+    }
+    existingProfessional.projects = projects;
+  }
+
+  if (req.files && req.files.resume) {
+    existingProfessional.resume = req.files.resume[0].filename;
+  }
+
+  await existingProfessional.save();
+
+  res.status(200).json({ message: "Professional details updated successfully" });
+});
+
+
+
 async function getUserAcademics(req, res) {
-  const [
-    email,
-    sscMarks,
-    educationType,
-    branch,
-    semesters,
-    backlogs,
-  ] = req.body;
+  const [email, sscMarks, educationType, branch, semesters, backlogs] =
+    req.body;
 
-  if(!email) {
-    throw new ApiError(400, "Unauthorized user!")
+  if (!email) {
+    throw new ApiError(400, "Unauthorized user!");
   }
 
-  if(!sscMarks || !educationType || !branch || !yearOfStudy || !semesters || !backlogs || !email) {
-    throw new ApiError(400, "All fields are required")
+  if (
+    !sscMarks ||
+    !educationType ||
+    !branch ||
+    !yearOfStudy ||
+    !semesters ||
+    !backlogs ||
+    !email
+  ) {
+    throw new ApiError(400, "All fields are required");
   }
 
   try {
@@ -446,11 +391,10 @@ async function getUserAcademics(req, res) {
 
     if (!user) {
       // If user not found, return 404 status with a message
-     throw new ApiError(404, "User not found");
+      throw new ApiError(404, "User not found");
     }
 
     // Return academic details of the user
-    
   } catch (error) {
     // If any error occurs, return 500 status with an error message
     console.error("Error fetching user academics:", error);
@@ -541,6 +485,7 @@ export {
   editProfile,
   registerUser,
   updateAcademicDetails,
+  editProfessionalDetails,
   login,
   logoutUser,
   refreshAccessToken,
