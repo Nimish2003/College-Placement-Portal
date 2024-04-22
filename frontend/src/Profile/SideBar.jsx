@@ -59,67 +59,12 @@ export default function Sidebar() {
 
             <a
               className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
+              href="/userdetails"
             >
               <BookOpen className="h-5 w-5" aria-hidden="true" />
               <span className="mx-2 text-sm font-medium">
                 Profile Information
               </span>
-            </a>
-          </div>
-          <div className="space-y-3 ">
-            <label className="px-3 text-xs font-semibold uppercase text-white">
-              Account
-            </label>
-            <a
-              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
-            >
-              <GraduationCap className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Resume/Cv</span>
-            </a>
-            <a
-              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
-            >
-              <Target className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Job Preferences</span>
-            </a>
-            <a
-              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
-            >
-              <FileClock className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">
-                Application History
-              </span>
-            </a>
-          </div>
-
-          <div className="space-y-3 ">
-            <label className="px-3 text-xs font-semibold uppercase text-white">
-              Customization
-            </label>
-            <a
-              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
-            >
-              <Brush className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Themes</span>
-            </a>
-            <a
-              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
-            >
-              <Wrench className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Settings</span>
-            </a>
-            <a
-              className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-              href="#"
-            >
-              <LogOut className="h-5 w-5" aria-hidden="true" />
-              <span className="mx-2 text-sm font-medium">Logout</span>
             </a>
           </div>
         </nav>
