@@ -330,7 +330,6 @@ const updateAcademicDetails = async (req, res) => {
   res.status(200).json({ message: "Academic details updated successfully" });
 };
 
-
 //Professional details
 const editProfessionalDetails = asyncHandler(async (req, res) => {
   const { email, internship, projects, course } = req.body;
@@ -348,7 +347,9 @@ const editProfessionalDetails = asyncHandler(async (req, res) => {
     for (let i = 0; i < projects.length; i++) {
       const project = projects[i];
       if (!project.title || !project.description || !project.projectUrl) {
-        return res.status(400).json({ message: `Project ${i + 1} details are incomplete` });
+        return res
+          .status(400)
+          .json({ message: `Project ${i + 1} details are incomplete` });
       }
     }
     existingProfessional.projects = projects;
@@ -360,47 +361,37 @@ const editProfessionalDetails = asyncHandler(async (req, res) => {
 
   await existingProfessional.save();
 
-  res.status(200).json({ message: "Professional details updated successfully" });
+  res
+    .status(200)
+    .json({ message: "Professional details updated successfully" });
 });
 
-
-
-async function getUserAcademics(req, res) {
-  const [email, sscMarks, educationType, branch, semesters, backlogs] =
-    req.body;
-
-  if (!email) {
-    throw new ApiError(400, "Unauthorized user!");
-  }
-
-  if (
-    !sscMarks ||
-    !educationType ||
-    !branch ||
-    !yearOfStudy ||
-    !semesters ||
-    !backlogs ||
-    !email
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
-
+const getUserDetails = asyncHandler(async (req, res) => {
   try {
-    // Find the user document based on the email
-    const user = await Academics.findOne(email);
+    const email = req.body.email;
+    console.log(email);
 
-    if (!user) {
-      // If user not found, return 404 status with a message
-      throw new ApiError(404, "User not found");
+    if (!email) {
+      return res.status(400).json({ message: "User ID is required" });
     }
 
-    // Return academic details of the user
+    const user = await User.findOne({ email }).select("-password");
+    const academic = await Academic.findOne({ email }).select("-email");
+    const professional = await Professional.findOne({
+      email,
+    }).select("-email");
+
+    if (!user || !academic || !professional) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    console.log({ user, academic, professional });
+
+    return res.status(200).json({ user, academic, professional });
   } catch (error) {
-    // If any error occurs, return 500 status with an error message
-    console.error("Error fetching user academics:", error);
-    return res.status(500).json({ error: "Error fetching user academics" });
+    return res.status(500).json({ message: "Internal server error" });
   }
-}
+});
 
 const logoutUser = asyncHandler(async (req, res) => {
   // check auth middleware first from where user id flows to here
@@ -486,6 +477,7 @@ export {
   registerUser,
   updateAcademicDetails,
   editProfessionalDetails,
+  getUserDetails,
   login,
   logoutUser,
   refreshAccessToken,

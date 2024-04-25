@@ -1,6 +1,6 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Profile from "./Profile/Profile.jsx";
 import Layout from "./components/Layout.jsx";
 import Footer from "./components/Footer.jsx";
@@ -15,125 +15,135 @@ import Professional from "./Profile/Professional.jsx";
 import CompanyProfile from "./Profile/CompanyProfile.jsx";
 import JobPostingForm from "./pages/JobCreateForm.jsx";
 import Redirect from "./Redirect.jsx";
-import { useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home.jsx";
 import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
-import Navbar from "./components/Navbar.jsx"
-import Cookies from 'js-cookie';
+import Navbar from "./components/Navbar.jsx";
+import Cookies from "js-cookie";
 import Admin from "./Admin/Admin.jsx";
 import UserDetailsPage from "./Profile/UserDetailsPage.jsx";
+import Company from "./Admin/Company.jsx";
 
-
+// const currentUser = JSON.parse(localStorage.getItem("user"));
+// const userId = currentUser ? currentUser.id : null;
+// console.log(userId);
 
 function App() {
-  const token = localStorage.getItem('token');
-  
-  const isNavBarOpen = useSelector(state => state.ui.isNavBarOpen)
+  const token = localStorage.getItem("token");
+
+  const isNavBarOpen = useSelector((state) => state.ui.isNavBarOpen);
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
         <>
           <ToastContainer
-                position="top-center"
-                autoClose={1500}
-                limit={2}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
-          {token && (<Navbar />)}
-          {!isNavBarOpen && (<>
-            <Outlet />
-            {token && (<Footer />)}
-          </>)}
+            position="top-center"
+            autoClose={1500}
+            limit={2}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover={false}
+            theme="light"
+          />
+          {token && <Navbar />}
+          {!isNavBarOpen && (
+            <>
+              <Outlet />
+              {token && <Footer />}
+            </>
+          )}
         </>
       ),
       children: [
         {
-          path: '/',
-          element: <Redirect />
+          path: "/",
+          element: <Redirect />,
         },
         {
-          path: '/contactus',
-          element: <ContactUs />
+          path: "/contactus",
+          element: <ContactUs />,
         },
         {
-          path: '/internships',
-          element: <Internships />
+          path: "/internships",
+          element: <Internships />,
         },
         {
-          path: '/placements',
-          element: <Placement />
+          path: "/placements",
+          element: <Placement />,
         },
         {
-          path: '/profile',
-          element: <Profile />
+          path: "/profile",
+          element: <Profile />,
         },
         {
-          path: '/recruiterform',
-          element: <RecruiterProfileForm />
+          path: "/recruiterform",
+          element: <RecruiterProfileForm />,
         },
         {
-          path: '/companyprofile',
-          element: <CompanyProfile />
+          path: "/companyprofile",
+          element: <CompanyProfile />,
         },
         {
-          path:"/academic",
-          element:<Academic />
+          path: "/academic",
+          element: <Academic />,
         },
         {
-          path:"/professional",
-          element: <Professional />
+          path: "/professional",
+          element: <Professional />,
         },
         {
           path: "/create-job",
           element: <JobPostingForm />,
         },
         {
-          path: '/recruitmentprocess',
-          element: <RecruitmentProcess />
+          path: "/recruitmentprocess",
+          element: <RecruitmentProcess />,
         },
         {
-          path: '/login',
-          element: <Login />
+          path: "/login",
+          element: <Login />,
         },
         {
-          path: '/home',
-          element: <Home />
+          path: "/home",
+          element: <Home />,
         },
         {
-          path: '/admin',
-          element: <Admin />
+          path: "/admin",
+          element: <Admin />,
         },
 
-      {
-        path:'/userdetails',
-        element:<UserDetailsPage />
-      }
-        
-      ]
-    }
+        {
+          path: "/userdetails",
+          element: <UserDetailsPage />,
+        },
+        {
+          path: "/admin",
+          element: <Admin />,
+        },
+        {
+          path: "/admin/company",
+          element: <Company />,
+        },
+      ],
+    },
   ]);
 
   return (
-    
-    <AnimatePresence >
+    <AnimatePresence>
       console.log(token);
       <div className="h-full w-full bg-[#E6E6FA]">
         <RouterProvider router={router} />
       </div>
     </AnimatePresence>
-    
-  )
+  );
 }
 
-export default App
+export default App;

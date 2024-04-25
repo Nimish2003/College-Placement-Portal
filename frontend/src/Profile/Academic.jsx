@@ -4,7 +4,7 @@ import React, { useState } from "react";
 // import MyComponent2 from "./MyComponent2.jsx";
 import Sidebar from "./SideBar";
 import "../Profile/Form.css";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 import Api from "../api";
 
 export default function Academic() {
@@ -94,7 +94,6 @@ export default function Academic() {
       });
     }
   };
-  
 
   const handleSemesterGPAChange = (semester, value) => {
     setAcademics((prevState) => ({
@@ -125,7 +124,7 @@ export default function Academic() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("academics", academics);
-  
+
     // if (
     //   !academics.sscMarks &&
     //   !academics.educationType &&
@@ -138,7 +137,7 @@ export default function Academic() {
     //   toast.error("All fields are required!");
     //   return;
     // }
-  
+
     // If all fields are empty, it's likely a new user registration
     if (
       Object.keys(academics).every(
@@ -186,12 +185,12 @@ export default function Academic() {
         });
       return;
     }
-  
+
     // Create an object to store only the fields that have been modified
     const updatedAcademic = {
       ...academics,
     };
-  
+
     await Api.createAcademic(updatedAcademic)
       .then((res) => {
         console.log(res);
@@ -224,7 +223,7 @@ export default function Academic() {
         toast.error("Failed to update academic. Please try again.");
       });
   };
-  
+
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -466,7 +465,7 @@ export default function Academic() {
                   type="submit"
                   className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
-                  Next
+                  Submit
                 </button>
               </div>
             </div>
