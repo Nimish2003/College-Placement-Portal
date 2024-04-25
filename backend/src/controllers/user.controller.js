@@ -83,6 +83,7 @@ const verifyOtp = async (req, res) => {
           id: user._id,
           email: user.email,
           name: user.name,
+          role: user.role,
         },
         secretKey,
         { expiresIn: "12h" }
@@ -113,12 +114,12 @@ const verifyOtp = async (req, res) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //1.get user details from frontend
-  const { name, email, password, confirmPassword, contactNumber } = req.body;
+  const { name, email, role, password, confirmPassword, contactNumber } = req.body;
   // console.log("User Details",req.body);
 
   //2.validation- not empty
   if (
-    [name, email, password, contactNumber, confirmPassword].some(
+    [name, email,role, password, contactNumber, confirmPassword].some(
       (field) => field?.trim() === ""
     )
   ) {
@@ -153,6 +154,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    role,
     contactNumber,
   });
 

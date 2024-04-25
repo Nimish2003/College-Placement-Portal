@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import * as Components from "../components/login/Components";
 import TextField from "@mui/material/TextField";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -10,7 +8,7 @@ import { toast } from "react-toastify";
 import VerifyOtp from "../components/login/VerifyOtp";
 import Api from "../api";
 import { useAuth } from "../context/context";
-
+import MenuItem from "@mui/material/MenuItem";
 
 function Login() {
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
@@ -19,23 +17,23 @@ function Login() {
     email: "",
     password: "",
     contactNumber: "",
+    role: "student", // Default value for role
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [signIn, toggle] = useState(true);
+  const [showOtp, setShowOtp] = useState(false);
+  const [btnName, setBtnName] = useState("Log In");
+
+  const { login } = useAuth();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword((show) => !show);
   const handleClickShowLoginPassword = () =>
     setShowLoginPassword((show) => !show);
-  const [otp, setOtp] = useState("");
-  const [showOtp, setShowOtp] = useState(false);
-  const [btnName, setBtnName] = useState("Log In");
-
-  const { login } = useAuth();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -51,11 +49,6 @@ function Login() {
       toggle(false);
       return;
     }
-    // if (signupInfo.password !== confirmPassword) {
-    //     toast.error('Passwords do not match');
-    //     toggle(false);
-    //     return;
-    // }
     await Api.registerUser(signupInfo)
       .then((res) => {
         console.log(res);
@@ -66,6 +59,7 @@ function Login() {
           email: "",
           password: "",
           contactNumber: "",
+          role: "student", // Reset role to default after signup
         });
       })
       .catch((err) => {
@@ -98,10 +92,13 @@ function Login() {
       })
       .catch((err) => {
         console.log(err);
-        // console.log(err.response)
         toast.error(err.response.data.message);
         setBtnName("Log In");
       });
+  };
+
+  const handleRoleChange = (e) => {
+    setSignupInfo({ ...signupInfo, role: e.target.value });
   };
 
   return (
@@ -140,7 +137,7 @@ function Login() {
             />
             <TextField
               id="outlined-basic"
-              label="contact Number"
+              label="Contact Number"
               variant="outlined"
               margin="normal"
               size="small"
@@ -149,6 +146,21 @@ function Login() {
                 setSignupInfo({ ...signupInfo, contactNumber: e.target.value })
               }
             />
+            <TextField
+              id="outlined-basic"
+              label="Role"
+              variant="outlined"
+              margin="normal"
+              size="small"
+              fullWidth
+              select
+              value={signupInfo.role}
+              onChange={handleRoleChange}
+            >
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+            </TextField>
+
             <div className="relative w-full">
               <TextField
                 className="w-full "

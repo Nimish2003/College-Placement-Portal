@@ -22,20 +22,19 @@ import Home from "./pages/Home.jsx";
 import RecruitmentProcess from "./pages/RecruitmentProcess.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Cookies from "js-cookie";
-import Admin from "./Admin/Admin.jsx";
+import Admin from "./components/Admin/Admin.jsx";
 import UserDetailsPage from "./Profile/UserDetailsPage.jsx";
-import Company from "./Admin/Company.jsx";
-
-// const currentUser = JSON.parse(localStorage.getItem("user"));
-// const userId = currentUser ? currentUser.id : null;
-// console.log(userId);
+import Company from "./components/Admin/Company.jsx";
 
 function App() {
   const token = localStorage.getItem("token");
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const role = currentUser ? currentUser.role : null;
 
   const isNavBarOpen = useSelector((state) => state.ui.isNavBarOpen);
 
-  const router = createBrowserRouter([
+  // Create separate router configurations for student and admin
+  const studentRoutes = [
     {
       path: "/",
       element: (
@@ -53,7 +52,7 @@ function App() {
             pauseOnHover={false}
             theme="light"
           />
-          {token && <Navbar />}
+          {!role || role !== "admin" ? <Navbar /> : null} {/* Render Navbar only if the role is not admin */}
           {!isNavBarOpen && (
             <>
               <Outlet />
@@ -115,15 +114,37 @@ function App() {
           path: "/home",
           element: <Home />,
         },
-        {
-          path: "/admin",
-          element: <Admin />,
-        },
+      ],
+    },
+  ];
 
-        {
-          path: "/userdetails",
-          element: <UserDetailsPage />,
-        },
+  const adminRoutes = [
+    {
+      path: "/",
+      element: (
+        <>
+          <ToastContainer
+            position="top-center"
+            autoClose={1500}
+            limit={2}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover={false}
+            theme="light"
+          />
+          {!isNavBarOpen && (
+            <>
+              <Outlet />
+              {token && <Footer />}
+            </>
+          )}
+        </>
+      ),
+      children: [
         {
           path: "/admin",
           element: <Admin />,
@@ -134,11 +155,15 @@ function App() {
         },
       ],
     },
-  ]);
+  ];
+
+  // Choose the routes based on the user's role
+  const routes = role === "admin" ? adminRoutes : studentRoutes;
+
+  const router = createBrowserRouter(routes);
 
   return (
     <AnimatePresence>
-      console.log(token);
       <div className="h-full w-full bg-[#E6E6FA]">
         <RouterProvider router={router} />
       </div>
@@ -147,3 +172,4 @@ function App() {
 }
 
 export default App;
+

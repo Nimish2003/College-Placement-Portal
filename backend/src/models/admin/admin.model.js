@@ -2,17 +2,15 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userSchema = new mongoose.Schema(
+const AdminSchema = new mongoose.Schema(
   {
-    role:{
-      type:String,
-    },
     name: {
       type: String,
       required: true,
     },
     firstName: {
       type: String,
+      // required: true,
       lowercase: true,
       trim: true,
       index: true, //to make field searchable in optimized manner
@@ -96,7 +94,6 @@ userSchema.methods.generateAccessToken = async function () {
         email: this.email,
         firstName: this.firstName,
         lastName: this.lastName,
-        role: this.role,
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
