@@ -110,20 +110,20 @@ const UserDetailsPage = () => {
         ) : (
           <div>
             <p>
-              <span className="font-semibold">Name:</span> {user.name}
+              <span className="font-semibold">Name:</span>Nimish
             </p>
             <p>
-              <span className="font-semibold">Email:</span> {user.email}
+              <span className="font-semibold">Email:</span>nimipadwal5@gmail.com
             </p>
             <p>
-              <span className="font-semibold">Contact Number:</span>{" "}
+              <span className="font-semibold">Contact Number:</span>9076431244
               {user.contactNumber}
             </p>
             <p>
-              <span className="font-semibold">Address:</span> {user.address}
+              <span className="font-semibold">Address:</span>Bhandup,Mumbai
             </p>
             <p>
-              <span className="font-semibold">Date of Birth:</span> {user.dob}
+              <span className="font-semibold">Date of Birth:</span>08-08-2024
             </p>
             {/* Display other user details */}
             <button
