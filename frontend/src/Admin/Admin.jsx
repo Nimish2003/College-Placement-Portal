@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Company from './Company';
 import ViewDrive from './ViewDrive';
+import ViewStudents from './ViewStudents';
 
 const Admin = () => {
   return (
@@ -10,7 +11,7 @@ const Admin = () => {
       < Navbar/>
       <div className='flex'>
       <Sidebar />
-      <ViewDrive />
+      <ViewStudents />
       </div>
     </div>
   );
